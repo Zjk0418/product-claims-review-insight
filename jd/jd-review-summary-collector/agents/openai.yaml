@@ -1,0 +1,4 @@
+interface:
+  display_name: "京东评价摘要采集"
+  short_description: "通过Chrome CDP直采京东评价摘要，飞书输入与回写可选"
+  default_prompt: "Use $jd-review-summary-collector to collect JD review counts and positive-review rates directly from SPUs or URLs; use Feishu only when the user provides a Base/date workflow."

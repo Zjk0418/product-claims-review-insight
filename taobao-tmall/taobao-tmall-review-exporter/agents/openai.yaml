@@ -1,0 +1,4 @@
+interface:
+  display_name: "淘宝天猫评价导出"
+  short_description: "抓取淘宝天猫评价，支持默认或最新排序及 Excel、JSONL 输出"
+  default_prompt: "使用 $taobao-tmall-review-exporter 按指定排序抓取淘宝或天猫评价，并按要求输出 Excel、JSONL 和真实评价图片。"
