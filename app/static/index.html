@@ -1,0 +1,1818 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>商品宣传与体验落差分析工具</title>
+<style>
+  /* 只保留最小 reset；组件与主题统一由 workspace.css 提供，避免两套主题互相覆盖。 */
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; }
+  .hidden { display: none !important; }
+  .sr-only {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+  }
+</style>
+<link rel="stylesheet" href="/static/workspace.css">
+</head>
+<body class="workspace-app">
+<svg class="icon-sprite" aria-hidden="true" width="0" height="0"><defs><symbol id="ui-collect" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M12 9v7m-3-3 3 3 3-3M8 3v3m8-3v3"/></symbol><symbol id="ui-reports" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="3"/><path d="M8 16v-4m4 4V8m4 8v-6"/></symbol><symbol id="ui-files" viewBox="0 0 24 24"><path d="M3 7h7l2 2h9v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/><path d="M3 7V5a2 2 0 0 1 2-2h5l2 2h7a2 2 0 0 1 2 2v2"/></symbol><symbol id="ui-history" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol><symbol id="ui-settings" viewBox="0 0 24 24"><path d="m9.5 4 .8-2h3.4l.8 2 2 .9 2.1-.3 1.7 2.9-1.3 1.7.2 2.3 1.5 1.5-1.7 2.9-2.2-.1-1.9 1.3-.6 2.1h-3.4L9 18.1l-1.9-1.3-2.2.1-1.7-2.9 1.5-1.5.2-2.3-1.3-1.7 1.7-2.9 2.1.3Z"/><circle cx="12" cy="11" r="3"/></symbol><symbol id="ui-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 0 1 5 0c0 2-2.5 2-2.5 4m0 3h.01"/></symbol><symbol id="ui-link" viewBox="0 0 24 24"><path d="m10 13 4-4m-7 6-1 1a4 4 0 0 1-6-6l4-4a4 4 0 0 1 6 0m-1 7 1-1a4 4 0 0 1 6 6l-4 4a4 4 0 0 1-6 0" transform="translate(3 -1)"/></symbol><symbol id="ui-play" viewBox="0 0 24 24"><path d="m8 5 11 7-11 7Z"/></symbol><symbol id="ui-shield" viewBox="0 0 24 24"><path d="m12 3 8 3v6c0 5-8 9-8 9s-8-4-8-9V6Z"/><path d="m8 12 3 3 5-6"/></symbol><symbol id="ui-spark" viewBox="0 0 24 24"><path d="m12 2 2.5 7.5L22 12l-7.5 2.5L12 22l-2.5-7.5L2 12l7.5-2.5Z"/></symbol><symbol id="ui-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></symbol><symbol id="ui-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-5-5 5 5-5 5"/></symbol><symbol id="ui-close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol></defs></svg>
+<div class="app-shell" id="appShell" data-view="collect" data-has-artifacts="false" data-has-collection="false">
+  <aside class="app-sidebar" aria-label="工作区侧栏">
+    <a class="brand" href="#" aria-label="商品宣传与体验落差分析工具首页" data-action="collect">
+      <span class="brand-mark"><svg viewBox="0 0 36 36" aria-hidden="true"><rect x="3" y="19" width="8" height="14" rx="4" fill="#55a9ff"/><rect x="14" y="4" width="8" height="29" rx="4" fill="#1677ff"/><rect x="25" y="12" width="8" height="21" rx="4" fill="#1461c5"/></svg></span>
+      <span class="brand-text"><span class="brand-name"><span>商品宣传与体验</span><span>落差分析工具</span></span><span class="sidebar-version" id="sidebarVersion">工作区</span></span>
+    </a>
+    <div class="sidebar-section-label">工作区</div>
+    <nav class="app-nav" aria-label="主导航"><button class="nav-item active" type="button" data-view="collect" aria-current="page"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#ui-collect"/></svg><span>低星评价采集</span></button><button class="nav-item" type="button" data-view="reports"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#ui-reports"/></svg><span>分析报告</span></button><button class="nav-item" type="button" data-view="files"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#ui-files"/></svg><span>评论与文件</span></button><button class="nav-item" type="button" data-view="history"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#ui-history"/></svg><span>历史任务</span></button><button class="nav-item" type="button" data-view="settings"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#ui-settings"/></svg><span>模型设置</span></button><button class="nav-item" type="button" data-view="help"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#ui-help"/></svg><span>使用帮助</span></button></nav>
+    <section class="sidebar-artifacts" id="sidebarArtifactSection">
+      <div class="sidebar-section-label">报告与文件 <span>预览优先</span></div>
+      <nav id="artifactTabs" class="artifact-tabs" role="tablist" aria-label="报告与文件预览切换"></nav>
+      <p class="sidebar-empty" id="artifactEmpty">采集完成后，报告与评论文件会出现在这里，点一下即可在右侧预览。</p>
+    </section>
+    <div class="sidebar-status">
+      <div class="sidebar-status-head"><span><i class="dot" id="sidebarHealthDot"></i><strong id="sidebarHealthText">等待连接</strong></span><span>本地工作区</span></div>
+      <p id="sidebarBrowser">采集时连接专属浏览器</p>
+      <button type="button" data-action="settings"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#ui-settings"/></svg><span>API 设置</span></button>
+      <button type="button" data-action="help"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#ui-help"/></svg><span>查看使用说明</span></button>
+    </div>
+  </aside>
+
+  <main class="app-main">
+    <header class="app-header">
+      <div class="header-title-group">
+        <button id="mobileMenuBtn" type="button" aria-label="展开侧栏" aria-expanded="false"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#ui-menu"/></svg></button>
+        <div><p class="page-eyebrow" id="pageEyebrow">REVIEW INSIGHT WORKSPACE</p>
+          <h1><span id="pageTitle">商品宣传与体验<span class="title-accent">落差分析</span></span><span id="appVersion" class="version-tag" hidden></span></h1>
+          <p class="sub" id="pageSubtitle">看清宣传与真实体验的距离，让每次购买更有依据。</p>
+        </div>
+      </div>
+      <div class="app-actions">
+        <div class="pill"><span id="healthDot" class="dot"></span><span id="healthText">检查采集环境…</span></div>
+        <button id="settingsOpenBtn" class="primary ghost" type="button"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#ui-settings"/></svg><span>API 设置</span></button>
+        <button id="clearSessionBtn" class="primary ghost" type="button"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#ui-files"/></svg><span>清理本次数据</span></button>
+      </div>
+    </header>
+
+    <div id="clearSessionConfirm" class="clear-confirm hidden" role="alert">
+    <p>清理本次工作区后，可从历史记录重新打开已有分析。已导出的文件及 API 配置不受影响。</p>
+    <button id="clearSessionConfirmBtn" class="danger" type="button">确认清理本次工作区</button>
+    <button id="clearSessionCancelBtn" class="primary ghost" type="button">继续保留预览</button>
+    <p id="clearSessionError" class="error-text" role="status"></p>
+  </div>
+    <div class="page-panels">
+      <section id="viewCollect" class="view-panel" data-page="collect" aria-label="低星评价采集">
+        <div class="collect-layout">
+          <div class="collect-main">
+            <section class="card step-card input-card">
+              <div class="step-heading"><span class="step-number">1</span><div><h2 class="step-title">输入商品信息</h2><p class="sub">粘贴商品链接，提取商品宣传信息与低星评价。</p></div></div>
+              <label class="sr-only" for="url">商品 URL 或商品 ID</label>
+              <div class="product-url-field"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#ui-link"/></svg><input id="url" type="text" spellcheck="false" placeholder="粘贴淘宝 / 天猫商品链接或分享短链" autocomplete="off"></div>
+              <p class="hint">支持商品 ID、完整链接、e.tb.cn / m.tb.cn 分享短链，也可粘贴整段分享文本。</p>
+            </section>
+            <section class="card step-card config-card">
+              <div class="step-heading"><span class="step-number">2</span><div><h2 class="step-title">采集配置</h2><p class="sub">选择扫描范围，采集过程中可查看进度与恢复断点。</p></div></div>
+              <div class="config-grid">
+                <div class="scope-fields">
+                  <div class="field"><label>提取维度</label><div class="segment" id="modeSegment"><button type="button" data-mode="count" class="active"># 按数量</button><button type="button" data-mode="time"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#ui-history"/></svg>按时间</button></div></div>
+                  <div class="field"><label id="scopeLabel" for="value">扫描最近多少条评价</label><div class="input-group"><input id="value" type="number" min="1" step="1" value="100"><select id="unit"><option value="reviews">条</option></select></div></div>
+                </div>
+                <aside class="collection-guide"><h3><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#ui-help"/></svg>采集说明</h3><ul><li>按评价时间倒序扫描</li><li>仅保留 ≤3 星及平台中差评</li><li>命中数量通常少于扫描数量</li><li>遇登录或验证时，可保留断点继续</li></ul></aside>
+              </div>
+              <button id="submit" class="primary start-button" type="button"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#ui-play"/></svg><span>开始采集</span></button><div id="formError" class="error-text" role="status"></div>
+              <details class="import-block"><summary>已有采集文件？导入 JSON 继续分析</summary><div class="import-row"><input id="importFile" type="file" accept=".json,application/json"><button id="importBtn" class="primary ghost" type="button">导入并继续分析</button></div><p class="hint">校验后在当前会话处理，不会修改原文件；导入本身不发起模型分析。</p><div id="importError" class="error-text" role="status"></div></details>
+            </section>
+        <section id="progressCard" class="card hidden">
+    <div class="progress-head">
+      <span id="progressMsg">准备中…</span>
+      <span id="progressPct">0%</span>
+    </div>
+    <div class="bar"><div id="barFill"></div></div>
+    <div class="stats">
+      <div><b id="statScanned">0</b><span>已扫描</span></div>
+      <div><b id="statMatched">0</b><span>低星命中</span></div>
+      <div><b id="statPages">0</b><span>已读页数</span></div>
+      <div><b id="statTotal">—</b><span>接口总量</span></div>
+    </div>
+  </section>
+        <section id="interventionCard" class="card intervene hidden">
+    <div class="result-head">
+      <div>
+        <h2 id="interveneTitle">需要你操作一下</h2>
+        <p id="interveneReason" class="sub"></p>
+      </div>
+      <span id="interveneBadge" class="tag partial">等待人工介入</span>
+    </div>
+    <p id="interveneVerdict" class="verdict hidden"></p>
+    <div class="stats">
+      <div><b id="iProduct">—</b><span>商品 ID</span></div>
+      <div><b id="iScanned">0</b><span>已扫描</span></div>
+      <div><b id="iMatched">0</b><span>低星命中</span></div>
+      <div><b id="iPages">0</b><span>已读页数</span></div>
+      <div><b id="iNext">1</b><span>下一页</span></div>
+      <div><b id="iResume">0</b><span>已尝试恢复</span></div>
+    </div>
+    <div id="iAccessRow" class="access-row">
+      <span id="iAccessTag" class="tag">数据访问未验证</span>
+      <span id="iAccessText" class="hint"></span>
+    </div>
+    <p id="iCheckpoint" class="hint"></p>
+    <ol id="interveneSteps" class="steps"></ol>
+    <p id="interveneDetail" class="hint"></p>
+    <div id="recheckResult" class="recheck hidden"></div>
+    <div class="intervene-actions">
+      <button id="openBrowserBtn" class="primary" type="button">打开采集浏览器</button>
+      <button id="resumeBtn" class="primary" type="button">我已完成，继续采集</button>
+      <button id="recheckBtn" class="primary ghost" type="button">重新检查页面</button>
+      <button id="cancelBtn" class="danger" type="button">取消任务</button>
+    </div>
+    <p class="hint">采集断点会在本次任务中保留；已完成的分析可在历史记录中重新打开。</p>
+  </section>
+        <section id="resultCard" class="card hidden">
+    <div class="result-head">
+      <div>
+        <h2 id="resultTitle">采集完成</h2>
+        <p id="resultMeta" class="sub"></p>
+      </div>
+      <button id="recollectBtn" class="primary ghost" type="button">重新采集</button>
+    </div>
+    <details class="source-fold"><summary>展开商品宣传信息</summary>
+    <div id="productBlock" class="product-block hidden">
+      <div class="product-head">
+        <img id="productThumb" class="thumb" alt="商品主图">
+        <div>
+          <h2 id="productTitle">商品信息</h2>
+          <p id="productPrice" class="price"></p>
+          <p id="productSubtitle" class="sub"></p>
+        </div>
+      </div>
+      <div class="stats product-stats">
+        <div><b id="pMain">0</b><span>主图</span></div>
+        <div><b id="pDetail">0</b><span>详情图</span></div>
+        <div><b id="pOcr">0</b><span>OCR 图片</span></div>
+        <div><b id="pClaims">0</b><span>宣传语</span></div>
+      </div>
+      <div id="claims" class="claims"></div>
+      <div class="manual-claims">
+        <textarea id="manualClaimsInput" rows="3" placeholder="粘贴详情图里的宣传文案，每行一条（例如：阔腿显瘦，宽松遮臀）"></textarea>
+        <div class="manual-claims-actions">
+          <button id="manualClaimsAdd" class="primary ghost" type="button">补充宣传语</button>
+          <span class="sub" id="manualClaimsHint">补充后请重新分析，这些文案会参与落差判断。</span>
+        </div>
+      </div>
+    </div>
+    </details>
+    <div class="analysis-block">
+      <div class="analysis-head">
+        <div>
+          <h3>宣传—体验落差分析</h3>
+          <p class="sub" id="analysisHint">对当前商品的可用评论去重分析。完成后自动预览可视化报告，按需导出。</p>
+        </div>
+        <button id="analyzeBtn" class="primary" type="button">开始分析</button>
+      </div>
+      <div id="analysisPanel" class="analysis-panel hidden">
+        <div class="progress-head">
+          <span id="analysisStage">准备中…</span>
+          <span id="analysisElapsed"></span>
+        </div>
+        <div class="bar"><div id="analysisBar"></div></div>
+        <div id="analysisSteps" class="analysis-steps"></div>
+      </div>
+      <div id="analysisError" class="error-text"></div>
+      <details id="analysisDetail" class="source-fold"><summary>展开分析摘要与诊断信息</summary><div id="analysisResult" class="hidden"></div></details>
+    </div>
+    <p id="resultNote" class="hint"></p>
+
+  </section>
+        <section id="errorCard" class="card error hidden">
+    <h2>采集未完成</h2>
+    <p id="errorMessage" class="sub"></p>
+  </section>
+          </div>
+          <aside class="collection-aside">
+            <img class="hero-illustration" src="/static/hero-illustration.svg" alt="商品、评价卡片与分析图表的蓝色插画">
+            <div class="hero-copy"><span class="hero-kicker">让购买依据更清楚</span><h2>自动采集 · 智能分析</h2><p>从商品宣传到真实体验，发现需要留意的购物问题。</p></div>
+            <div class="feature-list">
+              <div class="feature-item"><span class="feature-icon"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#ui-spark"/></svg></span><div class="feature-copy"><h3>采集与分析</h3><p>采集低星评价，完成后按需启动分析</p></div></div>
+              <div class="feature-item"><span class="feature-icon"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#ui-reports"/></svg></span><div class="feature-copy"><h3>数据与依据</h3><p>比较宣传与体验，每个问题可查看原文</p></div></div>
+              <div class="feature-item"><span class="feature-icon"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#ui-shield"/></svg></span><div class="feature-copy"><h3>预览与自主导出</h3><p>分析记录保存在本机，文件按需导出</p></div></div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section id="viewReports" class="view-panel" data-page="reports" hidden aria-label="分析报告">
+        <div class="page-intro"><div><h2>报告预览</h2><p>在侧栏切换交互报告或 PDF；只预览，不自动保存到本地。</p></div><span class="tag cat">分析结果</span></div>
+        <div id="reportsEmpty" class="card empty-state"><span class="empty-icon"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#ui-reports"/></svg></span><h3 class="empty-title">还没有可预览的分析报告</h3><p class="empty-description">输入商品链接可打开已有分析，也可采集或导入新的评论。报告生成后会自动打开。</p><button type="button" class="primary" data-action="collect">开始采集 <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#ui-arrow"/></svg></button></div>
+      </section>
+      <section id="viewFiles" class="view-panel" data-page="files" hidden aria-label="评论与文件">
+        <div class="page-intro"><div><h2>评论与文件</h2><p>侧栏可切换差评 XLSX、评论 JSON 和商品宣传信息；需要时再选择导出。</p></div><span class="tag cat">按需导出</span></div>
+        <div id="filesEmpty" class="card empty-state"><span class="empty-icon"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#ui-files"/></svg></span><h3 class="empty-title">尚未打开评论数据</h3><p class="empty-description">完成采集即可查看原始评论，分析后将提供更多格式的产物。</p><button type="button" class="primary" data-action="collect">前往采集 <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#ui-arrow"/></svg></button></div>
+        <section id="rawReviewsPanel" class="card raw-review-panel" hidden><div class="result-head"><div><h2>本次采集记录</h2><p class="sub">保留原始评论文本，采集后即可查看。</p></div><a id="download" class="primary ghost" download>导出采集 JSON</a></div><details class="source-fold"><summary>展开差评原始记录</summary><div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>日期</th><th>星级</th><th>类别</th><th>评价内容</th><th>SKU</th></tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+    </details></section>
+      </section>
+      <section id="viewHistory" class="view-panel" data-page="history" hidden aria-label="历史任务">
+        <div class="page-intro"><div><h2>继续之前的工作</h2><p>选择已有任务查看结果，不会重新采集或调用模型。</p></div><span class="tag cat">任务记录</span></div>
+        <section class="card history-card"><details class="import-block" id="historyBlock" open>
+      <summary>查看已保存的分析记录</summary>
+      <div class="import-row history-row">
+        <select id="historySelect" aria-label="已保存的历史任务"><option value="">正在读取历史任务…</option></select>
+        <button id="historyOpenBtn" class="primary ghost" type="button">查看结果</button>
+        <button id="historyRefreshBtn" class="primary ghost" type="button">刷新列表</button>
+      </div>
+      <p class="hint">选择商品即可查看已有评论与分析，文件按需导出。</p>
+      <div id="historyError" class="error-text" role="status"></div>
+    </details></section>
+        <div class="session-banner"><b>本机历史记录</b><span>已完成的分析会保留，重新搜索同一商品时可继续使用。</span></div>
+      </section>
+      <section id="viewSettings" class="view-panel" data-page="settings" hidden aria-label="模型设置">
+        <div class="page-intro"><div><h2>连接你的模型 API</h2><p>填写服务商地址、模型名称与密钥。只有点击测试或开始分析，才会发起模型请求。</p></div><span class="tag cat">自主配置</span></div>
+        <details id="apiSettings" class="card settings-panel">
+    <summary>连接你自己的模型 API <span id="apiConfiguredTag" class="tag insufficient">尚未配置</span></summary>
+    <div class="settings-grid">
+      <div class="field"><label for="apiBaseUrl">API 地址</label><input id="apiBaseUrl" type="url" placeholder="https://api.example.com/v1" spellcheck="false" autocomplete="off"></div>
+      <div class="field"><label for="apiModel">模型名称</label><input id="apiModel" type="text" placeholder="填写服务商提供的模型名称" spellcheck="false" autocomplete="off"></div>
+      <div class="field wide"><label for="apiKey">API Key</label><div class="key-row"><input id="apiKey" type="password" placeholder="输入你自己的 API Key" spellcheck="false" autocomplete="new-password"><button id="apiKeyRevealBtn" class="primary ghost" type="button" aria-label="显示 API Key">显示</button></div></div>
+      <div class="field"><label for="apiTimeout">请求超时（秒）</label><input id="apiTimeout" type="number" min="10" max="600" value="90"></div>
+      <div class="field"><label for="apiMaxTokens">每次最大输出 Token</label><input id="apiMaxTokens" type="number" min="256" max="32768" step="256" value="6000"></div>
+      <label class="check-option wide"><input id="apiRemember" type="checkbox"><span>在这台电脑记住配置（密钥由系统加密保护）</span></label>
+      <label class="check-option wide"><input id="apiAllowHttp" type="checkbox"><span>允许 http 明文连接（不安全：API Key 可能被窃取，仅在信任的服务或内网使用）</span></label>
+    </div>
+    <p class="hint" id="apiPrivacyHint">默认只在本次会话使用密钥。安装包和导出报告不包含你的 API Key；不会自动测试连接或发起模型请求。</p>
+    <div class="settings-actions">
+      <button id="apiSaveBtn" class="primary" type="button">应用配置</button>
+      <button id="apiTestBtn" class="primary ghost" type="button">测试连接</button>
+      <button id="apiClearKeyBtn" class="primary ghost" type="button">清除已配置密钥</button>
+    </div>
+    <p id="apiSettingsStatus" class="settings-status" role="status"></p>
+  </details>
+        <section class="card settings-explainer"><h2>本地模型与远程 API 各自负责什么</h2><p>BGE 在本地完成文本向量表示与问题聚类；问题抽取和宣传对比由你配置的模型 API 完成。分析所需文本会发送到该 API，密钥不会写入报告或安装包。</p></section>
+      </section>
+      <section id="viewHelp" class="view-panel" data-page="help" hidden aria-label="使用帮助">
+        <div class="page-intro"><div><h2>从采集到报告，三步完成</h2><p>让数据和依据可查，也让每一次导出由你决定。</p></div><span class="tag cat">快速上手</span></div>
+        <div class="help-grid"><section class="card help-card"><span class="step-number">1</span><h2>采集或导入评论</h2><p>输入淘宝 / 天猫链接或商品 ID，选择扫描范围后开始采集；也可导入之前保存的采集 JSON。</p><button class="primary ghost" type="button" data-action="collect">前往采集</button></section><section class="card help-card"><span class="step-number">2</span><h2>按需开始分析</h2><p>先在模型设置中应用自己的 API 配置。完成采集后点击开始分析，进度与阶段会实时展示。</p><button class="primary ghost" type="button" data-action="settings">打开模型设置</button></section><section class="card help-card"><span class="step-number">3</span><h2>预览与选择导出</h2><p>从侧栏查看报告与评论文件。展开问题可核对依据；选择需要的格式，再导出到本地。</p><button class="primary ghost" type="button" data-action="report">查看报告工作区</button></section></div>
+        <section class="card help-faq"><h2>常见问题</h2><details><summary>浏览器显示商品，但仍然读不到评论？</summary><p>商品页面和评论接口分开检查。平台可能要求登录或人工验证；在采集浏览器完成后，回到任务点击继续，程序会从断点恢复。</p></details><details><summary>报告里的概率和指数分别代表什么？</summary><p>概率圆环估计后续同规格可分析低星反馈再次提及同类问题的可能性；不是购买后的故障率。宣传矛盾指数衡量当前反驳证据强度，额外风险指数单独考虑其他体验问题；综合关注指数保留两类中较高的已知值。</p></details><details><summary>文件会自动保存在电脑上吗？</summary><p>评论与分析记录会保存在本机，重新搜索同一商品时可快速打开。报告和汇总文件按需导出。</p></details><details><summary>为什么只看到 ≤3 星评论？</summary><p>本工具按时间倒序扫描，重点保留低星及中差评。星级来自平台返回字段；未返回数值星级的记录会在 JSON 中标记。</p></details></section>
+      </section>
+    </div>
+    <section id="artifactWorkspace" class="card workspace hidden" aria-label="报告与产物预览">
+    <div class="workspace-head">
+      <div>
+        <div class="workspace-title"><h2>分析报告</h2><span>预览工作区</span></div>
+        <p class="sub" id="artifactProductTitle">生成后默认打开可视化报告</p>
+      </div>
+      <div class="workspace-actions">
+        <button id="artifactFocusBtn" class="primary ghost" type="button" aria-pressed="false">专注预览</button>
+        <button id="artifactExportCurrentBtn" class="primary ghost" type="button">导出当前文件</button>
+        <button id="artifactChooseBtn" class="primary" type="button">选择需要的文件</button>
+      </div>
+    </div>
+
+    <div class="artifact-preview-header"><strong id="artifactPreviewLabel">可视化分析报告</strong><span id="artifactPreviewNote">仅预览，尚未导出</span></div>
+    <iframe id="artifactFrame" title="产物预览" sandbox="allow-scripts allow-downloads" referrerpolicy="no-referrer" src="about:blank"></iframe>
+    <p id="artifactError" class="workspace-error" role="status"></p>
+    <details id="artifactSelection" class="artifact-selection">
+      <summary>选择导出文件 <span id="artifactSelectedCount">0 项</span></summary>
+      <div id="artifactOptions" class="artifact-options"></div>
+      <div class="artifact-export-row"><button id="artifactExportSelectedBtn" class="primary" type="button" disabled>导出选中文件</button><span class="hint">未选择的文件不会保存到本地；多项会打包为 ZIP。</span></div>
+    </details>
+  </section>
+    <footer class="app-footer"><span>历史可回看 · 依据可追溯 · 文件按需导出</span><button type="button" data-action="help">使用帮助 <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#ui-arrow"/></svg></button></footer>
+  </main>
+</div>
+<script>
+const $ = (id) => document.getElementById(id);
+const state = { mode: "count", jobId: null, timer: null, busy: false, productId: null, analysisJobId: null, analysisTimer: null,
+  analysisEpoch: 0, cachedReplayTimer: null, cachedReplayResolve: null,
+  artifacts: [], artifactId: null, artifactProductId: null, artifactRequest: 0, selectedArtifacts: new Set(), settingsBusy: false };
+const COLLECT_STATUS_LABEL = { queued: "排队中", collecting: "采集中", resuming: "恢复中", awaiting_user: "等待人工介入", completed: "采集完成", partial: "部分完成", failed: "失败", cancelled: "已取消" };
+const ACCESS_LABELS = {
+  not_checked: { text: "数据访问未验证", cls: "insufficient", note: "还没有发过真实评价请求；页面正常不代表接口能读。" },
+  ready: { text: "数据访问已确认", cls: "ready", note: "已用真实请求确认可以读取评价数据。" },
+  still_blocked: { text: "平台仍拒绝访问", cls: "blocked", note: "" },
+  login_required: { text: "登录态失效", cls: "blocked", note: "需要在采集浏览器里重新登录淘宝。" },
+  browser_error: { text: "浏览器连接异常", cls: "blocked", note: "调试浏览器没有响应，重新启动采集环境后再试。" },
+  page_timeout: { text: "页面响应超时", cls: "insufficient", note: "浏览器还在运行，但商品页没在时限内回应；刷新页面后重试同一页即可。" },
+  unknown: { text: "无法确认", cls: "insufficient", note: "现有证据不足以判断数据是否可读。" }
+};
+
+function setHealth(ok, browser, version) {
+  const badge = $("appVersion");
+  if (badge) {
+    badge.textContent = version ? "v" + version : "";
+    badge.hidden = !version;
+    badge.title = version ? "当前运行版本 v" + version : "";
+  }
+  $("healthDot").className = "dot " + (ok ? "ok" : "bad");
+  const prefix = version ? "v" + version + " · " : "";
+  $("healthText").textContent = ok ? "已连接浏览器" : "采集浏览器待连接";
+  if (window.WorkspaceShell) window.WorkspaceShell.healthChanged({ ok, browser, version });
+}
+
+async function checkHealth() {
+  if (!state.settingsLoaded) { state.settingsLoaded = true; loadApiSettings(); }
+  try {
+    const res = await fetch("/api/health", { cache: "no-store" });
+    const data = await res.json();
+    setHealth(!!data.cdp, data.browser || "", data.version || "");
+  } catch (e) {
+    setHealth(false, "", "");
+  }
+}
+
+function applyMode(mode) {
+  state.mode = mode;
+
+document.querySelectorAll("#modeSegment button").forEach((btn) => {
+    btn.classList.toggle("active", btn.dataset.mode === mode);
+  });
+  const unit = $("unit");
+  if (mode === "count") {
+    $("scopeLabel").textContent = "扫描最近多少条评价";
+    unit.innerHTML = '<option value="reviews">条</option>';
+    $("value").value = "100";
+    $("value").max = "300";
+  } else {
+    $("scopeLabel").textContent = "扫描最近多长时间";
+    unit.innerHTML = '<option value="year">年</option><option value="month">月</option><option value="day">天</option>';
+    $("value").value = "1";
+    $("value").max = "10";
+  }
+  updateTimeMax();
+}
+
+function updateTimeMax() {
+  if (state.mode !== "time") return;
+  const unit = $("unit").value;
+  $("value").max = unit === "day" ? "3650" : unit === "month" ? "120" : "10";
+}
+
+function setBusy(busy, label) {
+  state.busy = busy;
+  $("submit").disabled = busy;
+  $("submit").textContent = busy ? (label || "采集中…") : "开始采集";
+  ["url", "value", "unit"].forEach((id) => { $(id).disabled = busy; });
+  document.querySelectorAll("#modeSegment button").forEach((btn) => { btn.disabled = busy; });
+  $("importBtn").disabled = busy;
+  $("importFile").disabled = busy;
+  $("historyOpenBtn").disabled = busy;
+  $("historySelect").disabled = busy;
+  $("recollectBtn").disabled = busy;
+  $("clearSessionBtn").disabled = busy;
+}
+
+function showError(message) {
+  $("errorCard").classList.remove("hidden");
+  $("errorMessage").textContent = message;
+  setBusy(false);
+}
+
+function updateProgress(p) {
+  if (!p) return;
+  $("progressMsg").textContent = p.message || "处理中…";
+  $("statScanned").textContent = p.scanned ?? 0;
+  $("statMatched").textContent = p.matched ?? 0;
+  $("statPages").textContent = p.pages ?? 0;
+  $("statTotal").textContent = p.api_total ?? "—";
+
+  let pct = 0;
+  if (state.mode === "count") {
+    const target = Math.max(1, parseInt($("value").value || "100", 10));
+    pct = Math.min(100, ((p.scanned || 0) / target) * 100);
+  } else {
+    const total = p.api_total || 300;
+    pct = Math.min(95, ((p.scanned || 0) / total) * 100);
+  }
+  $("barFill").style.width = pct.toFixed(1) + "%";
+  $("progressPct").textContent = Math.round(pct) + "%";
+}
+
+async function submit(options) {
+  if (state.busy) return;
+  if ($("analyzeBtn").disabled) { $("formError").textContent = "当前分析任务正在进行，请完成后再开始新采集。"; return; }
+  $("formError").textContent = "";
+  $("errorCard").classList.add("hidden");
+  $("resultCard").classList.add("hidden");
+  resetIntervention();
+
+  const url = $("url").value.trim();
+  const value = parseInt($("value").value || "0", 10);
+  const unit = $("unit").value;
+
+  if (!url) { $("formError").textContent = "请填写商品 URL 或商品 ID"; return; }
+  if (!Number.isFinite(value) || value <= 0) { $("formError").textContent = "请填写有效的范围数值"; return; }
+  if (state.mode === "count" && (value < 1 || value > 300)) { $("formError").textContent = "数量范围应为 1–300 条"; return; }
+
+  resetAnalysis();
+  const submissionEpoch = state.analysisEpoch;
+  setBusy(true);
+  $("progressCard").classList.remove("hidden");
+  $("barFill").style.width = "0%";
+  $("progressPct").textContent = "0%";
+  $("progressMsg").textContent = "正在识别商品链接；分享短链可能需要几秒钟…";
+
+  try {
+    const res = await fetch("/api/jobs", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ url, mode: state.mode, value, unit, ...(options && options.forceRefresh === true ? { force_refresh: true } : {}) })
+    });
+    const data = await res.json();
+    if (submissionEpoch !== state.analysisEpoch) return;
+    if (!res.ok) {
+      $("progressCard").classList.add("hidden");
+      $("formError").textContent = data.error || "创建任务失败";
+      setBusy(false);
+      return;
+    }
+    state.jobId = data.id;
+    state.productId = data.product_id || null;
+    if (data.product_url) $("url").value = data.product_url;
+    if (data.status === "completed" || data.status === "partial") {
+      updateProgress(data.progress || {});
+      const shown = await renderResult(data, { replay: data.analysis_available === true && (!!data.cache_hit || !!data.cached) });
+      if (shown !== false && state.jobId === data.id) setBusy(false);
+      return;
+    }
+    poll();
+  } catch (e) {
+    if (submissionEpoch !== state.analysisEpoch) return;
+    $("progressCard").classList.add("hidden");
+    $("formError").textContent = "无法连接本地服务：" + e.message;
+    setBusy(false);
+  }
+}
+
+async function poll() {
+  if (!state.jobId) return;
+  clearTimeout(state.timer);
+  try {
+    const res = await fetch("/api/jobs/" + state.jobId, { cache: "no-store" });
+    const job = await res.json();
+    if (!res.ok) {
+      showError(job.error || "查询任务失败");
+      return;
+    }
+    state.jobId = job.id;
+    if (job.product_id) state.productId = job.product_id;
+    updateProgress(job.progress || {});
+
+    if (job.status === "awaiting_user") {
+      $("progressCard").classList.remove("hidden");
+      $("progressMsg").textContent = "采集已暂停，请按下方步骤处理后再继续；已采集的进度不会丢失。";
+      showIntervention(job);
+      setBusy(true, "等待人工介入…");
+      return;
+    }
+    if (job.status === "completed" || job.status === "partial") {
+      resetIntervention();
+      await renderResult(job);
+      setBusy(false);
+      return;
+    }
+    if (job.status === "cancelled") {
+      resetIntervention();
+      $("progressCard").classList.add("hidden");
+      setBusy(false);
+      $("formError").textContent = "任务已取消；本次会话中的已采集数据仍可预览或导出。";
+      return;
+    }
+    if (job.status === "failed") {
+      $("progressCard").classList.add("hidden");
+      setBusy(false);
+      if (job.intervention) showIntervention(job);
+      if (job.can_resume) {
+        $("resumeBtn").classList.remove("hidden");
+        $("resumeBtn").disabled = false;
+        $("cancelBtn").classList.remove("hidden");
+      } else {
+        $("resumeBtn").classList.add("hidden");
+        $("cancelBtn").classList.add("hidden");
+      }
+      $("recheckBtn").disabled = false;
+      showError(job.last_error || job.message || "采集失败");
+      return;
+    }
+
+    resetIntervention();
+    $("progressCard").classList.remove("hidden");
+    $("progressMsg").textContent = job.message || ((job.stage || "采集中") + "…");
+    setBusy(true, job.status === "resuming" ? "恢复中…" : "采集中…");
+    state.timer = setTimeout(poll, 1200);
+  } catch (e) {
+    state.timer = setTimeout(poll, 2000);
+  }
+}
+
+function resetIntervention() {
+  $("interventionCard").classList.add("hidden");
+  $("interveneVerdict").classList.add("hidden");
+  $("recheckResult").classList.add("hidden");
+  $("recheckResult").innerHTML = "";
+  $("resumeBtn").classList.remove("hidden");
+  $("cancelBtn").classList.remove("hidden");
+  $("resumeBtn").disabled = false;
+  $("resumeBtn").textContent = "我已完成，继续采集";
+  $("openBrowserBtn").disabled = false;
+  $("recheckBtn").disabled = false;
+  $("cancelBtn").disabled = false;
+}
+
+function showIntervention(job) {
+  const iv = job.intervention || {};
+  const progress = job.progress || {};
+  $("interventionCard").classList.remove("hidden");
+  $("interveneTitle").textContent = iv.title || "需要你操作一下";
+  $("interveneReason").textContent = iv.reason || job.message || "采集已暂停";
+  $("interveneBadge").textContent = COLLECT_STATUS_LABEL[job.status] || "等待人工介入";
+  // 本次结论：来自服务端按「页面状态 + 数据访问状态」生成的具体判断，
+  // 与上面的通用说明分开显示，避免所有暂停都长同一句话。
+  const verdict = job.message && job.message !== iv.reason ? job.message : "";
+  $("interveneVerdict").textContent = verdict ? ("本次结论：" + verdict) : "";
+  $("interveneVerdict").classList.toggle("hidden", !verdict);
+  $("iProduct").textContent = job.product_id || "—";
+  $("iScanned").textContent = progress.scanned ?? 0;
+  $("iMatched").textContent = progress.matched ?? 0;
+  $("iPages").textContent = progress.pages ?? 0;
+  $("iNext").textContent = progress.next_page ?? 1;
+  $("iResume").textContent = job.resume_count ?? 0;
+
+  const access = job.access || { status: "not_checked" };
+  const meta = ACCESS_LABELS[access.status] || ACCESS_LABELS.not_checked;
+  $("iAccessTag").textContent = meta.text;
+  $("iAccessTag").className = "tag " + meta.cls;
+  let accessText = meta.note || "";
+  if (access.status === "still_blocked" && access.page_no) {
+    accessText = "第 " + access.page_no + " 页的真实请求仍被拦截。";
+  }
+  if (access.detail) accessText += (accessText ? " " : "") + access.detail;
+  if (access.checked_at) {
+    accessText += "（" + String(access.checked_at).replace("T", " ") + " 检查）";
+  }
+  $("iAccessText").textContent = accessText;
+  $("iCheckpoint").textContent = job.has_checkpoint
+    ? "断点已保存：可从第 " + (progress.next_page ?? 1) + " 页继续，已采集的评论不会重复写入。"
+    : "当前任务没有可用的断点文件；继续会从第一页开始。";
+
+  const list = $("interveneSteps");
+  list.innerHTML = "";
+  (iv.steps || []).forEach((step) => {
+    const li = document.createElement("li");
+    li.textContent = step;
+    list.appendChild(li);
+  });
+  $("interveneDetail").textContent = iv.detail ? ("补充信息：" + iv.detail) : "";
+  $("resumeBtn").disabled = iv.can_resume === false;
+  $("interventionCard").scrollIntoView({ block: "nearest", behavior: "smooth" });
+}
+
+async function jobAction(action, label) {
+  if (!state.jobId) return null;
+  const res = await fetch("/api/jobs/" + state.jobId + "/" + action, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: "{}"
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    const err = new Error(data.error || (label + "失败"));
+    err.data = data;
+    throw err;
+  }
+  return data;
+}
+
+function showRecheck(title, rows, note, ok) {
+  const box = $("recheckResult");
+  box.classList.remove("hidden");
+  box.innerHTML = "";
+  if (title) {
+    const h = document.createElement("p");
+    h.className = "recheck-note";
+    h.style.fontWeight = "600";
+    h.textContent = title;
+    box.appendChild(h);
+  }
+  (rows || []).forEach((item) => {
+    const row = document.createElement("div");
+    row.className = "check-row";
+    const mark = document.createElement("span");
+    mark.className = "mark " + (item.ok ? "check-ok" : "check-bad");
+    mark.textContent = item.ok ? "✓" : "✕";
+    row.appendChild(mark);
+    const text = document.createElement("span");
+    text.textContent = item.name + "：" + (item.detail || "");
+    row.appendChild(text);
+    box.appendChild(row);
+  });
+  if (note) {
+    const p = document.createElement("p");
+    p.className = "recheck-note " + (ok ? "check-ok" : "check-bad");
+    p.textContent = note;
+    box.appendChild(p);
+  }
+}
+
+async function recheckJob() {
+  if (!state.jobId) return;
+  const btn = $("recheckBtn");
+  btn.disabled = true;
+  btn.textContent = "检查中…";
+  try {
+    const data = await jobAction("recheck", "检查页面");
+    const note = data.ok
+      ? "① 页面状态：通过。② 数据访问：尚未验证 —— 点「继续采集」会发一次真实评价请求确认；若平台仍拦截，会保留断点并回到这里。"
+      : "页面检查未通过：" + (data.detail || "请按上面的步骤处理后重试。");
+    showRecheck("页面检查结果（第一级）", data.checks, note, false);
+    if (data.intervention) {
+      $("interveneTitle").textContent = data.intervention.title;
+      $("interveneReason").textContent = data.intervention.reason;
+      const list = $("interveneSteps");
+      list.innerHTML = "";
+      (data.intervention.steps || []).forEach((step) => {
+        const li = document.createElement("li");
+        li.textContent = step;
+        list.appendChild(li);
+      });
+    }
+    $("resumeBtn").disabled = !data.ok && data.kind === "product_unavailable";
+    if (data.ok) $("resumeBtn").disabled = false;
+  } catch (e) {
+    showRecheck("页面检查失败", [], e.message, false);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "重新检查页面";
+  }
+}
+
+async function resumeJob() {
+  if (!state.jobId) return;
+  const btn = $("resumeBtn");
+  btn.disabled = true;
+  btn.textContent = "检查并继续…";
+  try {
+    await jobAction("resume", "继续采集");
+    resetIntervention();
+    $("errorCard").classList.add("hidden");
+    $("progressCard").classList.remove("hidden");
+    $("progressMsg").textContent = "正在检查页面并从断点继续…";
+    setBusy(true, "恢复中…");
+    poll();
+  } catch (e) {
+    showRecheck("暂时无法继续", (e.data && e.data.checks) || [], e.message, false);
+    btn.disabled = false;
+    btn.textContent = "我已完成，继续采集";
+  }
+}
+
+async function openCollectionBrowser() {
+  if (!state.jobId) return;
+  const btn = $("openBrowserBtn");
+  btn.disabled = true;
+  try {
+    const data = await jobAction("focus", "打开浏览器");
+    const modeText = data.mode === "validate"
+      ? "新标签页：平台验证页"
+      : (data.mode === "tab" ? "复用采集标签页" : "新开前台标签页");
+    const rows = [{ name: "打开方式", ok: true, detail: modeText }];
+    if (data.validate_at) {
+      rows.push({ name: "验证链接生成于", ok: !data.validate_stale, detail: String(data.validate_at).replace("T", " ") });
+    }
+    showRecheck(
+      "已切换到采集浏览器",
+      rows,
+      data.hint || data.message || "完成登录或验证后会自动继续；也可以点「继续采集」立即恢复。",
+      !data.validate_stale
+    );
+  } catch (e) {
+    showRecheck("无法打开调试浏览器", [], e.message, false);
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+async function cancelJob() {
+  if (!state.jobId) return;
+  if (!window.confirm("取消后本次任务会停止，已采集的进度会保留但不会自动继续。确定取消？")) return;
+  try {
+    await jobAction("cancel", "取消任务");
+    resetIntervention();
+    $("progressCard").classList.add("hidden");
+    setBusy(false);
+    $("formError").textContent = "任务已取消；本次会话中的已采集数据仍可预览或导出。";
+  } catch (e) {
+    showRecheck("取消失败", [], e.message, false);
+  }
+}
+
+async function importJson() {
+  if (state.busy || $("analyzeBtn").disabled) { $("importError").textContent = "当前任务正在进行，请完成或取消后再导入其他数据。"; return; }
+  const file = $("importFile").files && $("importFile").files[0];
+  $("importError").textContent = "";
+  if (!file) {
+    $("importError").textContent = "请先选择一个采集 JSON 文件";
+    return;
+  }
+  const btn = $("importBtn");
+  btn.disabled = true;
+  btn.textContent = "校验并导入…";
+  try {
+    const text = await file.text();
+    const res = await fetch("/api/import", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ content: text, filename: file.name })
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      $("importError").textContent = data.error || "导入失败";
+      return;
+    }
+    state.jobId = data.id;
+    state.productId = data.product_id;
+    $("resultCard").classList.remove("hidden");
+    await renderResult(data);
+  } catch (e) {
+    $("importError").textContent = "读取或导入失败：" + e.message;
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "导入并继续分析";
+  }
+}
+
+function renderHistoryJobs(records) {
+  const select = $("historySelect");
+  select.innerHTML = "";
+  const jobs = (records || []).filter((job) => job.download_url &&
+    !["queued", "collecting", "awaiting_user", "resuming"].includes(job.status));
+  select.appendChild(el("option", null, jobs.length ? "请选择已保存的任务" : "暂无已保存的历史结果"));
+  select.children[0].value = "";
+  jobs.forEach((job) => {
+    const source = job.cache_hit || job.cached || job.legacy === true ? "历史记录 · " : job.temporary === true ? "本次会话 · " : "";
+    const status = source + (job.imported ? "导入历史数据" : (COLLECT_STATUS_LABEL[job.status] || job.status));
+    const option = el("option", null,
+      [job.product_title || job.product_id, status, job.created_at || job.id].filter(Boolean).join(" · "));
+    option.value = job.id;
+    select.appendChild(option);
+  });
+}
+
+async function refreshHistoryJobs() {
+  $("historyError").textContent = "";
+  try {
+    const res = await fetch("/api/jobs/recent", { cache: "no-store" });
+    if (!res.ok) throw new Error("读取历史任务失败");
+    renderHistoryJobs((await res.json()).jobs);
+  } catch (e) {
+    $("historyError").textContent = e.message;
+  }
+}
+
+async function loadHistoryJob(jobId) {
+  $("historyError").textContent = "";
+  if (state.busy || $("analyzeBtn").disabled) {
+    $("historyError").textContent = "当前任务正在进行，请完成或取消后再查看其他历史结果。";
+    return;
+  }
+  if (!/^[a-zA-Z0-9]+$/.test(jobId || "")) {
+    $("historyError").textContent = "请选择有效的历史任务。";
+    return;
+  }
+  $("historyOpenBtn").disabled = true;
+  try {
+    const res = await fetch("/api/jobs/" + encodeURIComponent(jobId), { cache: "no-store" });
+    const job = await res.json();
+    if (!res.ok) throw new Error(job.error || "读取历史任务失败");
+    if (["queued", "collecting", "awaiting_user", "resuming"].includes(job.status)) {
+      throw new Error("该任务仍在进行中，请刷新页面恢复当前任务。");
+    }
+    if (!job.download_url) throw new Error("该任务没有已保存的结果文件。");
+    clearTimeout(state.timer);
+    resetIntervention();
+    resetAnalysis();
+    $("errorCard").classList.add("hidden");
+    state.jobId = job.id;
+    state.productId = job.product_id;
+    if (job.product_url) $("url").value = job.product_url;
+    await renderResult({ ...job, historical_view: true });
+    $("historySelect").value = job.id;
+  } catch (e) {
+    $("historyBlock").open = true;
+    $("historyError").textContent = "无法打开历史结果：" + e.message;
+  } finally {
+    $("historyOpenBtn").disabled = state.busy;
+  }
+}
+
+async function restoreRecentJob() {
+  try {
+    const res = await fetch("/api/jobs/recent", { cache: "no-store" });
+    if (!res.ok) throw new Error("读取历史任务失败");
+    const data = await res.json();
+    renderHistoryJobs(data.jobs);
+    const job = data.active;
+    const requestedJob = new URLSearchParams(window.location.search).get("job");
+    if (!job || !["queued", "collecting", "awaiting_user", "resuming"].includes(job.status)) {
+      if (requestedJob) await loadHistoryJob(requestedJob);
+      return;
+    }
+    if (requestedJob) {
+      $("historyError").textContent = "已优先恢复正在进行的采集任务；完成或取消后可查看历史结果。";
+    }
+
+    state.jobId = job.id;
+    state.productId = job.product_id;
+    if (job.product_url) $("url").value = job.product_url;
+    const scope = job.scope || {};
+    state.mode = scope.mode === "time" ? "time" : "count";
+    applyMode(state.mode);
+    if (state.mode === "count" && scope.count) $("value").value = scope.count;
+    if (state.mode === "time") {
+      $("value").value = scope.value || 1;
+      $("unit").value = scope.unit || "day";
+      updateTimeMax();
+    }
+
+    updateProgress(job.progress || {});
+    $("progressCard").classList.remove("hidden");
+    $("progressMsg").textContent = job.message || ((job.stage || "采集中") + "…");
+    if (job.status === "awaiting_user") {
+      showIntervention(job);
+      setBusy(true, "等待人工介入…");
+      return;
+    }
+    setBusy(true, job.status === "resuming" ? "恢复中…" : "采集中…");
+    poll();
+  } catch (e) { $("historyError").textContent = e.message; }
+}
+
+function starBadge(star) {
+  const span = document.createElement("span");
+  if (star === 1) { span.className = "badge s1"; span.textContent = "1 星"; }
+  else if (star === 2) { span.className = "badge s2"; span.textContent = "2 星"; }
+  else if (star === 3) { span.className = "badge s3"; span.textContent = "3 星"; }
+  else { span.className = "badge s0"; span.textContent = "—"; }
+  return span;
+}
+
+function renderProduct(data) {
+  const product = data.product || {};
+  const info = (data.collection_info && data.collection_info.product_info) || {};
+  const images = Array.isArray(product.images) ? product.images : [];
+  const block = $("productBlock");
+
+  if (!product.title && !images.length) {
+    block.classList.add("hidden");
+    return;
+  }
+  block.classList.remove("hidden");
+  $("productTitle").textContent = product.title || "商品信息";
+  $("productPrice").textContent = product.price_text ? "¥" + product.price_text : "价格未获取";
+  const skuCount = product.sku_count ?? (Array.isArray(product.skus) ? product.skus.length : 0);
+  $("productSubtitle").textContent = [product.subtitle, skuCount ? skuCount + " 个 SKU" : ""]
+    .filter(Boolean)
+    .join(" · ");
+
+  const main = images.find((item) => item.kind === "main");
+  const thumb = $("productThumb");
+  if (main && main.local_path) {
+    const name = String(main.local_path).split("/").pop();
+    thumb.src = "/api/products/" + encodeURIComponent(data.product_id) + "/images/" + encodeURIComponent(name);
+    thumb.style.display = "";
+  } else {
+    thumb.style.display = "none";
+  }
+
+  $("pMain").textContent = info.main_image_count ?? 0;
+  $("pDetail").textContent = info.detail_image_count ?? 0;
+  $("pOcr").textContent = info.ocr_image_count ?? 0;
+  $("pClaims").textContent = (data.promotional_claims || []).length;
+
+  const claims = $("claims");
+  claims.innerHTML = "";
+  (data.promotional_claims || []).slice(0, 30).forEach((claim) => {
+    const span = document.createElement("span");
+    span.className = "claim";
+    span.textContent = claim.text;
+    span.title = (claim.source || "") + (claim.confidence != null ? " · " + claim.confidence : "");
+    claims.appendChild(span);
+  });
+}
+
+async function renderResult(job, options) {
+  options = options || {};
+  const epoch = state.analysisEpoch;
+  const info = (job.summary && job.summary.collection_info) || {};
+  const importMeta = (job.summary && job.summary.import_meta) || null;
+  const imported = !!(job.imported || importMeta);
+  $("progressCard").classList.add("hidden");
+  $("resultCard").classList.remove("hidden");
+  if (job.id) {
+    const resultUrl = new URL(window.location.href);
+    resultUrl.searchParams.set("job", job.id);
+    window.history.replaceState(null, "", resultUrl);
+  }
+  const sourceLabel = job.cache_hit || job.cached || job.legacy === true ? "历史记录 · " : job.temporary === true
+    ? (job.historical_view ? "本次任务 · " : "") : (job.historical_view ? "历史任务 · " : "");
+  $("resultTitle").textContent = imported
+    ? "导入历史数据：" + (info.matched_count ?? 0) + " 条 ≤3 星评价"
+    : sourceLabel +
+      (COLLECT_STATUS_LABEL[job.status] || "采集结果") + "：命中 " + (info.matched_count ?? 0) + " 条 ≤3 星评价";
+  $("resultMeta").textContent = imported
+    ? ("来源：历史 JSON" +
+       (importMeta && importMeta.original_filename ? " · " + importMeta.original_filename : "") +
+       " · " + (info.matched_count ?? 0) + " 条评价")
+    : ("扫描 " + (info.scanned_count ?? 0) + " 条 · 共 " + (info.pages_fetched ?? 0) + " 页 · " +
+       (info.oldest_scanned_date || "—") + " 至 " + (info.newest_scanned_date || "—") + " · " +
+       (info.stop_reason || ""));
+  $("resultNote").textContent = imported
+    ? "原始导入文件未被修改；分析记录保存在本机，文件按需导出。"
+    : (info.matched_without_star
+        ? ("其中 " + info.matched_without_star + " 条平台未返回数值星级，已按中评/差评类别纳入，star 字段为 null。")
+        : "全部命中评价均有平台返回的数值星级。");
+  const productInfo = info.product_info || {};
+  if (productInfo.ocr_status && productInfo.ocr_status !== "ok") {
+    $("resultNote").textContent += " 图片文字识别状态：" + productInfo.ocr_status + "。";
+  }
+  $("download").href = job.download_url || "#";
+  if (!imported) $("resultNote").textContent += " 分析记录保存在本机，文件按需导出。";
+
+  const tbody = $("tableBody");
+  tbody.innerHTML = "";
+  if (!job.download_url) return;
+
+  const res = await fetch(job.download_url, { cache: "no-store" });
+  if (!res.ok) throw new Error("已保存的结果文件不存在或无法读取");
+  const data = await res.json();
+  if (epoch !== state.analysisEpoch || job.id && state.jobId !== job.id) return false;
+  renderProduct(data);
+  if (data.product_id && await checkExistingAnalysis(data.product_id, {
+    available: job.analysis_available === true,
+    focus: job.analysis_available === true && (!!job.cache_hit || !!job.cached || !!job.historical_view),
+    replay: options.replay === true
+  }) === false) return false;
+  if (job.id && state.jobId !== job.id) return false;
+  const frag = document.createDocumentFragment();
+  (data.reviews || []).forEach((r) => {
+    const tr = document.createElement("tr");
+    const tdDate = document.createElement("td");
+    tdDate.textContent = r.date_raw || r.date || "";
+    const tdStar = document.createElement("td");
+    tdStar.appendChild(starBadge(r.star));
+    const tdType = document.createElement("td");
+    tdType.textContent = r.rate_label || "";
+    const tdContent = document.createElement("td");
+    tdContent.className = "content";
+    tdContent.textContent = r.content || "";
+    const tdSku = document.createElement("td");
+    tdSku.className = "sku";
+    tdSku.textContent = r.sku || "";
+    tr.append(tdDate, tdStar, tdType, tdContent, tdSku);
+    frag.appendChild(tr);
+  });
+  tbody.appendChild(frag);
+  if (window.WorkspaceShell) {
+    window.WorkspaceShell.collectionChanged({jobId: state.jobId, productId: state.productId, reviewCount: (data.reviews || []).length});
+    window.WorkspaceShell.navigate(state.artifactProductId === state.productId ? "reports" : "collect");
+  }
+  (state.artifactProductId === state.productId ? $("artifactWorkspace") : $("resultCard")).scrollIntoView({ behavior: "smooth", block: "start" });
+  return true;
+}
+
+document.querySelectorAll("#modeSegment button").forEach((btn) => {
+  btn.addEventListener("click", () => applyMode(btn.dataset.mode));
+});
+const GAP_LABELS = {
+  potential_conflict: "存在潜在冲突",
+  partial_gap: "部分体验差异",
+  no_direct_conflict_found: "未发现直接冲突",
+  insufficient_evidence: "证据不足"
+};
+const GAP_CLASS = {
+  potential_conflict: "conflict",
+  partial_gap: "partial",
+  no_direct_conflict_found: "none",
+  insufficient_evidence: "insufficient"
+};
+const STEP_PCT = {
+  preprocess: 10, category: 15, extract: 35, embed: 45,
+  cluster: 55, statistics: 62, claims: 78, gaps: 92
+};
+
+function el(tag, cls, text) {
+  const node = document.createElement(tag);
+  if (cls) node.className = cls;
+  if (text != null) node.textContent = text;
+  return node;
+}
+
+const STEP_DONE_STATUS = ["ok", "loaded", "blocked", "manual_gold"];
+
+function renderAnalysisSteps(job) {
+  const host = $("analysisSteps");
+  if (!host) return;
+  const plan = Array.isArray(job.plan) ? job.plan : [];
+  if (!plan.length) return;
+  const seen = new Map((job.steps || []).map((row) => [row.step, row]));
+  host.replaceChildren();
+  plan.forEach((item, index) => {
+    const row = seen.get(item.step);
+    let state = "pending";
+    if (row) {
+      if (row.status === "failed") state = "failed";
+      else if (row.status === "running") state = "running";
+      else if (row.status === "skipped") state = "skipped";
+      else if (STEP_DONE_STATUS.includes(row.status)) state = "done";
+    }
+    const mark = state === "done" ? "✓" : state === "running" ? "●"
+      : state === "failed" ? "!" : state === "skipped" ? "–" : String(index + 1);
+    const line = el("div", "analysis-step " + state);
+    line.append(el("span", "step-mark", mark), el("span", "step-label", item.label));
+    let detail = (row && row.detail) || "";
+    if (!detail && state === "running") detail = "进行中…";
+    if (!detail && state === "skipped") detail = "跳过";
+    if (!detail && state === "failed") detail = "失败";
+    if (detail) line.append(el("span", "step-detail", detail));
+    host.append(line);
+  });
+}
+
+function resetAnalysis(options) {
+  state.analysisEpoch += 1;
+  clearTimeout(state.cachedReplayTimer);
+  state.cachedReplayTimer = null;
+  const cancelReplay = state.cachedReplayResolve;
+  state.cachedReplayResolve = null;
+  if (cancelReplay) cancelReplay(false);
+  if (!options || options.keepBusy !== true) setBusy(false);
+  resetArtifacts();
+  clearTimeout(state.analysisTimer);
+  state.analysisJobId = null;
+  $("analysisPanel").classList.add("hidden");
+  $("analysisPanel").classList.remove("cached-analysis-process");
+  $("analysisError").textContent = "";
+  $("analysisResult").classList.add("hidden");
+  $("analysisResult").innerHTML = "";
+  $("analysisBar").style.width = "0%";
+  $("analysisElapsed").textContent = "";
+  $("analyzeBtn").disabled = false;
+  $("analyzeBtn").textContent = "开始分析";
+}
+
+function analysisIsCurrent(productId, epoch) {
+  return epoch === state.analysisEpoch && String(state.productId) === String(productId);
+}
+
+function replayCachedAnalysis(productId, epoch) {
+  if (!analysisIsCurrent(productId, epoch)) return Promise.resolve(false);
+  const plan = [
+    { step: "preprocess", label: "整理评论" },
+    { step: "extract", label: "提取问题" },
+    { step: "cluster", label: "语义聚类" },
+    { step: "gaps", label: "宣传对照" },
+    { step: "risk", label: "风险分析" },
+    { step: "report", label: "报告生成" }
+  ];
+  $("analyzeBtn").disabled = true;
+  $("analyzeBtn").textContent = "分析中…";
+  $("clearSessionBtn").disabled = true;
+  $("analysisResult").classList.add("hidden");
+  $("analysisPanel").classList.remove("hidden");
+  $("analysisPanel").classList.add("cached-analysis-process");
+  if (window.WorkspaceShell) window.WorkspaceShell.navigate("collect");
+  $("analysisPanel").scrollIntoView({ behavior: "smooth", block: "center" });
+  const started = Date.now();
+  const duration = 10000;
+  let previousStage = -1;
+  return new Promise((resolve) => {
+    state.cachedReplayResolve = resolve;
+    const tick = () => {
+      if (!analysisIsCurrent(productId, epoch)) {
+        state.cachedReplayTimer = null;
+        state.cachedReplayResolve = null;
+        resolve(false);
+        return;
+      }
+      const elapsed = Math.max(0, Date.now() - started);
+      const progress = Math.min(1, elapsed / duration);
+      const stage = Math.min(plan.length - 1, Math.floor(progress * plan.length));
+      $("analysisStage").textContent = progress === 1 ? "分析完成" : plan[stage].label + "…";
+      $("analysisElapsed").textContent = (elapsed / 1000).toFixed(1) + " 秒 · " + Math.round(progress * 100) + "%";
+      $("analysisBar").style.width = (progress * 100).toFixed(1) + "%";
+      if (stage !== previousStage || progress === 1) {
+        renderAnalysisSteps({ plan, steps: plan.map((item, index) => ({
+          step: item.step, status: progress === 1 || index < stage ? "ok" : index === stage ? "running" : "pending"
+        })) });
+        previousStage = stage;
+      }
+      if (progress === 1) {
+        state.cachedReplayTimer = null;
+        state.cachedReplayResolve = null;
+        resolve(true);
+        return;
+      }
+      state.cachedReplayTimer = setTimeout(tick, 100);
+    };
+    tick();
+  });
+}
+
+async function checkExistingAnalysis(productId, options) {
+  options = options || {};
+  resetAnalysis({ keepBusy: true });
+  state.productId = productId;
+  const epoch = state.analysisEpoch;
+  try {
+    const res = await fetch("/api/analysis/product/" + encodeURIComponent(productId), { cache: "no-store" });
+    if (!analysisIsCurrent(productId, epoch)) return false;
+    if (!res.ok) {
+      if (options.available) {
+        if (options.replay && !await replayCachedAnalysis(productId, epoch)) return false;
+        await loadArtifactWorkspace(productId, { focus: options.focus === true });
+        if (!analysisIsCurrent(productId, epoch)) return false;
+        finishCachedAnalysis();
+      }
+      return;
+    }
+    const data = await res.json();
+    if (!analysisIsCurrent(productId, epoch)) return false;
+    const failure = savedAnalysisFailure(data);
+    if (failure) { failAnalysis(failure); return; }
+    const available = options.available || data.freshness && data.freshness.is_current === true;
+    if (available && options.replay && !await replayCachedAnalysis(productId, epoch)) return false;
+    if (!analysisIsCurrent(productId, epoch)) return false;
+    renderAnalysis(data, { existing: true, downloadUrl: "/api/analysis/product/" + encodeURIComponent(productId) + "/download" });
+    $("analyzeBtn").textContent = "重新分析";
+    if (available) {
+      await loadArtifactWorkspace(productId, { focus: options.focus === true });
+      if (!analysisIsCurrent(productId, epoch)) return false;
+      finishCachedAnalysis();
+    }
+  } catch (e) {
+    if (!analysisIsCurrent(productId, epoch)) return false;
+    finishCachedAnalysis();
+  }
+}
+
+function finishCachedAnalysis() {
+  $("analysisPanel").classList.add("hidden");
+  $("analysisPanel").classList.remove("cached-analysis-process");
+  $("analyzeBtn").disabled = false;
+  $("clearSessionBtn").disabled = state.busy;
+}
+
+function savedAnalysisFailure(data) {
+  const status = String(data.original_status || data.status || "").toLowerCase();
+  return ["failed", "blocked", "partial", "error"].includes(status)
+    ? data.failure_reason || data.error || "这次分析尚未完成，请重新分析。" : "";
+}
+
+function failAnalysis(message) {
+  clearTimeout(state.analysisTimer);
+  $("analysisPanel").classList.add("hidden");
+  $("analysisError").textContent = message || "分析失败";
+  if ((message || "").indexOf("API 设置中配置") >= 0) {
+    // 配置缺失时直接把设置面板推到用户面前，避免只看到一句“去配置”却找不到入口。
+    $("apiSettings").open = true;
+    if (window.WorkspaceShell) window.WorkspaceShell.navigate("settings");
+    $("apiKey").focus();
+  }
+  $("analyzeBtn").disabled = false;
+  $("analyzeBtn").textContent = "重试分析";
+  $("clearSessionBtn").disabled = state.busy;
+}
+
+async function startAnalysis() {
+  if (!state.productId || $("analyzeBtn").disabled) return;
+  resetAnalysis();
+  const productId = state.productId;
+  const epoch = state.analysisEpoch;
+  $("analyzeBtn").disabled = true;
+  $("analyzeBtn").textContent = "分析中…";
+  $("analysisError").textContent = "";
+  $("clearSessionBtn").disabled = true;
+  resetArtifacts();
+  $("analysisResult").classList.add("hidden");
+  $("analysisResult").innerHTML = "";
+  $("analysisPanel").classList.remove("hidden");
+  $("analysisStage").textContent = "提交分析任务…";
+  $("analysisBar").style.width = "5%";
+  if ($("analysisSteps")) $("analysisSteps").replaceChildren();
+  try {
+    const res = await fetch("/api/analysis", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ product_id: productId, force: false })
+    });
+    const data = await res.json();
+    if (!analysisIsCurrent(productId, epoch)) return;
+    if (!res.ok) { failAnalysis(data.error || "创建分析任务失败"); return; }
+    if (data.status === "exists") {
+      const r = await fetch("/api/analysis/product/" + encodeURIComponent(productId), { cache: "no-store" });
+      const saved = await r.json();
+      if (!analysisIsCurrent(productId, epoch)) return;
+      if (!r.ok || savedAnalysisFailure(saved)) { failAnalysis(savedAnalysisFailure(saved) || saved.error || "分析记录暂不可用"); return; }
+      if (!await replayCachedAnalysis(productId, epoch)) return;
+      renderAnalysis(saved, { existing: true, downloadUrl: "/api/analysis/product/" + encodeURIComponent(productId) + "/download" });
+      await loadArtifactWorkspace(productId, { focus: true });
+      if (!analysisIsCurrent(productId, epoch)) return;
+      $("analyzeBtn").disabled = false;
+      $("analyzeBtn").textContent = "重新分析";
+      $("analysisPanel").classList.add("hidden");
+      $("analysisPanel").classList.remove("cached-analysis-process");
+      $("clearSessionBtn").disabled = false;
+      return;
+    }
+    state.analysisJobId = data.id;
+    pollAnalysis();
+  } catch (e) {
+    if (!analysisIsCurrent(productId, epoch)) return;
+    failAnalysis("无法连接本地服务：" + e.message);
+  }
+}
+
+async function pollAnalysis() {
+  clearTimeout(state.analysisTimer);
+  if (!state.analysisJobId) return;
+  const epoch = state.analysisEpoch;
+  const productId = state.productId;
+  const jobId = state.analysisJobId;
+  try {
+    const res = await fetch("/api/analysis/" + jobId, { cache: "no-store" });
+    const job = await res.json();
+    if (!analysisIsCurrent(productId, epoch) || state.analysisJobId !== jobId) return;
+    if (!res.ok) { failAnalysis(job.error || "查询分析任务失败"); return; }
+    $("analysisStage").textContent = job.stage || "分析中…";
+    const pct = job.progress != null ? job.progress : (STEP_PCT[job.step] || 5);
+    const shown = Math.max(3, Math.min(100, pct));
+    $("analysisElapsed").textContent = (job.elapsed != null ? job.elapsed : 0) + " 秒 · " + Math.round(shown) + "%";
+    renderAnalysisSteps(job);
+    $("analysisBar").style.width = shown + "%";
+
+    if (job.status === "success") {
+      $("analysisBar").style.width = "100%";
+      const r = await fetch("/api/analysis/" + jobId + "/result", { cache: "no-store" });
+      const result = await r.json();
+      if (!analysisIsCurrent(productId, epoch) || state.analysisJobId !== jobId) return;
+      if (!r.ok || savedAnalysisFailure(result)) { failAnalysis(savedAnalysisFailure(result) || result.error || "分析结果暂不可用"); return; }
+      renderAnalysis(result, { downloadUrl: "/api/analysis/" + state.analysisJobId + "/download" });
+      await loadArtifactWorkspace(state.productId || job.product_id, { focus: true });
+      if (!analysisIsCurrent(productId, epoch) || state.analysisJobId !== jobId) return;
+      $("analysisPanel").classList.add("hidden");
+      $("analyzeBtn").disabled = false;
+      $("analyzeBtn").textContent = "重新分析";
+      $("clearSessionBtn").disabled = false;
+      return;
+    }
+    if (job.status === "failed" || job.status === "blocked") {
+      failAnalysis(job.error || "分析失败");
+      return;
+    }
+    state.analysisTimer = setTimeout(pollAnalysis, 2000);
+  } catch (e) {
+    if (!analysisIsCurrent(productId, epoch) || state.analysisJobId !== jobId) return;
+    state.analysisTimer = setTimeout(pollAnalysis, 3000);
+  }
+}
+
+function renderAnalysis(data, opt) {
+  opt = opt || {};
+  const box = $("analysisResult");
+  box.innerHTML = "";
+  box.classList.remove("hidden");
+
+  const freshness = data.freshness || {};
+  if (freshness.is_current !== true) {
+    const warning = el("div", "analysis-warning");
+    warning.appendChild(el("strong", null, "历史分析已过期或产物不完整，请重新分析。"));
+    warning.appendChild(el("p", null, (freshness.reasons || ["未能确认产物完整性"]).join("；")));
+    if (data.generated_at) warning.appendChild(el("p", "hint", "历史生成时间：" + data.generated_at));
+    box.appendChild(warning);
+    if (opt.downloadUrl) {
+      const archive = el("a", "primary ghost", "下载历史分析 JSON（含状态说明）");
+      archive.href = opt.downloadUrl;
+      archive.setAttribute("download", "");
+      box.appendChild(archive);
+    }
+    return;
+  }
+
+  const d = data.denominators || {};
+  const cat = data.category || {};
+  const meta = el("div", "analysis-meta");
+  if (cat.label) {
+    meta.appendChild(el("span", "tag cat",
+      "品类：" + cat.label + (cat.confidence != null ? " · " + Math.round(cat.confidence * 100) + "%" : "")));
+  }
+  if (cat.ambiguous) meta.appendChild(el("span", "tag", "品类待复核"));
+  meta.appendChild(el("span", "tag", "扫描 " + (d.max_scanned_in_one_run ?? "—") + " 条"));
+  meta.appendChild(el("span", "tag", "低星 " + (d.unique_low_star_reviews ?? "—") + " 条"));
+  meta.appendChild(el("span", "tag", "有效 " + (d.valid_for_analysis ?? "—") + " 条"));
+  box.appendChild(meta);
+
+  if (cat.evidence && cat.evidence.length) {
+    box.appendChild(el("p", "hint", "品类识别依据：" + cat.evidence.join("、")));
+  }
+  if (opt.existing) {
+    box.appendChild(el("p", "hint", "已加载该商品的历史分析结果（" + (data.generated_at || "") + "）；点击“重新分析”可重跑。"));
+  }
+
+  const grid = el("div", "analysis-grid");
+  [["负面问题", data.issues ? data.issues.issue_count : 0],
+   ["问题簇", data.issues ? data.issues.cluster_count : 0],
+   ["宣传主张", (data.claims || []).length],
+   ["落差判断", (data.gaps || []).length]].forEach(([label, value]) => {
+    const cell = el("div");
+    cell.appendChild(el("b", null, String(value)));
+    cell.appendChild(el("span", null, label));
+    grid.appendChild(cell);
+  });
+  box.appendChild(grid);
+
+  box.appendChild(el("h4", "analysis-sub", "高频负面问题"));
+  const problems = data.top_problems || [];
+  if (!problems.length) {
+    box.appendChild(el("p", "hint", "没有可展示的问题簇。"));
+  }
+  problems.forEach((item) => {
+    const card = el("div", "problem");
+    const head = el("div", "problem-head");
+    head.appendChild(el("span", null, "#" + item.rank + " " + (item.problem_name || "")));
+    head.appendChild(el("span", "tag", (item.review_count || 0) + " 条评论 · " + (item.aspect || "")));
+    card.appendChild(head);
+    if (item.description) card.appendChild(el("p", "hint", item.description));
+    const evidence = item.evidence || [];
+    if (evidence.length) {
+      const ul = el("ul", "evidence");
+      evidence.forEach((ev) => {
+        ul.appendChild(el("li", null, "[" + (ev.star || "?") + " 星 " + (ev.date || "") + "] " + (ev.content || "")));
+      });
+      card.appendChild(ul);
+    }
+    box.appendChild(card);
+  });
+
+  box.appendChild(el("h4", "analysis-sub", "宣传与体验的落差"));
+  const gaps = (data.gaps || []).slice().sort((a, b) => {
+    const order = { potential_conflict: 0, partial_gap: 1, no_direct_conflict_found: 2, insufficient_evidence: 3 };
+    return (order[a.gap_type] ?? 9) - (order[b.gap_type] ?? 9);
+  });
+  const shown = gaps.filter((g) => g.gap_type !== "insufficient_evidence").slice(0, 12);
+  const extra = gaps.filter((g) => g.gap_type === "insufficient_evidence").slice(0, 6);
+  if (!shown.length && !extra.length) {
+    box.appendChild(el("p", "hint", "没有宣传主张可用于落差判断。"));
+  }
+  const gapHead = el("div", "gap-row gap-head");
+  gapHead.appendChild(el("div", null, "宣传主张"));
+  gapHead.appendChild(el("div", null, "判断"));
+  gapHead.appendChild(el("div", null, "依据"));
+  box.appendChild(gapHead);
+  shown.concat(extra).forEach((g) => {
+    const row = el("div", "gap-row");
+    row.appendChild(el("div", null, g.claim_text || ""));
+    row.appendChild(el("div", null, "")).appendChild(
+      el("span", "tag " + (GAP_CLASS[g.gap_type] || ""), GAP_LABELS[g.gap_type] || g.gap_type)
+    );
+    row.appendChild(el("div", null, g.finding || ""));
+    box.appendChild(row);
+  });
+  if (gaps.length > shown.length + extra.length) {
+    box.appendChild(el("p", "hint", "以上为优先级较高的 " + (shown.length + extra.length) + " 条，完整 " + gaps.length + " 条见下载文件。"));
+  }
+
+  const foot = el("div", "analysis-foot");
+  const limitations = data.limitations || [];
+  foot.appendChild(el("p", "hint", limitations.length ? "局限：" + limitations.slice(0, 2).join("；") : ""));
+  const link = el("a", "primary ghost", "下载分析 JSON");
+  link.href = opt.downloadUrl || "";
+  link.setAttribute("download", "");
+  if (!opt.downloadUrl) link.style.display = "none";
+  foot.appendChild(link);
+  box.appendChild(foot);
+}
+
+function settingsMessage(message, bad) {
+  $("apiSettingsStatus").textContent = message || "";
+  $("apiSettingsStatus").className = "settings-status" + (bad ? " bad" : "");
+}
+
+function setSettingsBusy(busy) {
+  state.settingsBusy = busy;
+  ["apiSaveBtn", "apiTestBtn", "apiClearKeyBtn"].forEach((id) => { $(id).disabled = busy; });
+}
+
+function settingsPayload() {
+  const baseUrl = $("apiBaseUrl").value.trim();
+  const model = $("apiModel").value.trim();
+  const timeout = Number($("apiTimeout").value);
+  const maxTokens = Number($("apiMaxTokens").value);
+  let parsed;
+  try { parsed = new URL(baseUrl); } catch (e) { throw new Error("请填写有效的 API 地址，例如 https://api.example.com/v1"); }
+  if (!["http:", "https:"].includes(parsed.protocol) || parsed.username || parsed.password || parsed.search || parsed.hash) {
+    throw new Error("API 地址应为 http/https 服务地址，不包含账号、查询参数或锚点。");
+  }
+  const allowHttp = !!$("apiAllowHttp").checked;
+  const localHost = ["localhost", "127.0.0.1", "::1"].includes(parsed.hostname);
+  if (parsed.protocol === "http:" && !localHost && !allowHttp) {
+    throw new Error("远程接口须使用 HTTPS；如果服务只支持 HTTP，请勾选“允许 http 明文连接（不安全）”。");
+  }
+  if (!model) throw new Error("请填写模型名称。");
+  if (!Number.isInteger(timeout) || timeout < 10 || timeout > 600) throw new Error("超时时间应为 10–600 秒的整数。");
+  if (!Number.isInteger(maxTokens) || maxTokens < 256 || maxTokens > 32768) throw new Error("最大输出 Token 应为 256–32768 的整数。");
+  const payload = { base_url: baseUrl.replace(/\/+$/, ""), model, timeout, max_tokens: maxTokens,
+    remember: !!$("apiRemember").checked, allow_insecure_http: allowHttp };
+  const key = $("apiKey").value.trim();
+  if (key) payload.api_key = key;
+  return payload;
+}
+
+function applySettingsView(data) {
+  const settings = data.settings || data;
+  $("apiBaseUrl").value = settings.base_url || "";
+  $("apiModel").value = settings.model || "";
+  $("apiTimeout").value = settings.timeout || 90;
+  $("apiMaxTokens").value = settings.max_tokens || 6000;
+  $("apiRemember").checked = !!settings.remember;
+  $("apiAllowHttp").checked = !!settings.allow_insecure_http;
+  const configured = !!(settings.configured || settings.key_configured);
+  $("apiConfiguredTag").textContent = configured ? "已配置" : "尚未配置";
+  $("apiConfiguredTag").className = "tag " + (configured ? "ready" : "insufficient");
+  $("apiKey").value = "";
+  $("apiKey").placeholder = configured ? ("已配置 " + (settings.key_mask || settings.masked_api_key || "密钥") + "；留空保持现有密钥") : "输入你自己的 API Key";
+  if (settings.remember_available === false) {
+    $("apiRemember").disabled = true;
+    $("apiRemember").checked = false;
+    $("apiPrivacyHint").textContent = settings.storage_note || "当前环境仅支持本次会话使用密钥。安装包与导出报告不包含密钥。";
+  }
+  if (!configured) $("apiSettings").open = true;
+}
+
+async function loadApiSettings() {
+  try {
+    const response = await fetch("/api/settings", { cache: "no-store" });
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error || "暂时无法读取 API 设置");
+    applySettingsView(data);
+    settingsMessage("配置保存在当前应用会话中；测试连接只会在你点击时发起。", false);
+  } catch (error) {
+    settingsMessage(error.message || "暂时无法读取 API 设置", true);
+  }
+}
+
+async function saveApiSettings(clearKey) {
+  if (state.settingsBusy) return;
+  let payload;
+  try { payload = clearKey ? { clear_key: true, api_key: "" } : settingsPayload(); }
+  catch (error) { settingsMessage(error.message, true); return; }
+  setSettingsBusy(true);
+  settingsMessage(clearKey ? "正在清除密钥…" : "正在应用配置…", false);
+  try {
+    const response = await fetch("/api/settings", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error || "保存配置失败");
+    applySettingsView(data);
+    settingsMessage(clearKey ? "密钥已清除。" : (data.message || "配置已应用；未发起模型调用。"), false);
+  } catch (error) { settingsMessage(error.message || "保存配置失败", true); }
+  finally { setSettingsBusy(false); }
+}
+
+async function testApiSettings() {
+  if (state.settingsBusy) return;
+  let payload;
+  try { payload = settingsPayload(); }
+  catch (error) { settingsMessage(error.message, true); return; }
+  setSettingsBusy(true);
+  settingsMessage("正在向你配置的服务测试连接…", false);
+  try {
+    const response = await fetch("/api/settings/test", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+    const data = await response.json();
+    if (!response.ok || data.ok === false) throw new Error(data.error || data.message || "连接测试失败");
+    // 测试连接只验证、不保存：刚输入的新密钥必须再点「应用配置」，否则分析仍会报未配置。
+    settingsMessage(payload.api_key
+      ? "连接成功，但配置还没有保存——请点击「应用配置」，否则开始分析时仍会提示未配置。"
+      : (data.message || "连接测试通过。"), false);
+  } catch (error) { settingsMessage(error.message || "连接测试失败", true); }
+  finally { setSettingsBusy(false); }
+}
+
+function resetArtifacts() {
+  setReportFocus(false);
+  state.artifactRequest += 1;
+  state.artifacts = [];
+  state.artifactId = null;
+  state.artifactProductId = null;
+  state.selectedArtifacts = new Set();
+  $("artifactFrame").src = "about:blank";
+  lastReportHeight = 0;
+  $("artifactFrame").style.height = "";
+  $("artifactWorkspace").classList.add("hidden");
+  $("artifactTabs").innerHTML = "";
+  $("artifactOptions").innerHTML = "";
+  $("artifactError").textContent = "";
+  $("artifactSelectedCount").textContent = "0 项";
+  $("artifactExportSelectedBtn").disabled = true;
+  $("artifactSelection").open = false;
+  if (window.WorkspaceShell) window.WorkspaceShell.reset();
+}
+
+function localArtifactUrl(value) {
+  const url = new URL(value, window.location.href);
+  if (url.origin !== new URL(window.location.href).origin || !["http:", "https:"].includes(url.protocol)) {
+    throw new Error("产物地址不是当前应用的预览地址。");
+  }
+  return url.href;
+}
+
+function updateArtifactSelection() {
+  $("artifactSelectedCount").textContent = state.selectedArtifacts.size + " 项";
+  $("artifactExportSelectedBtn").disabled = state.selectedArtifacts.size === 0;
+}
+
+function isReportArtifact(artifact) {
+  const id = String(artifact && artifact.id || "");
+  const format = String(artifact && artifact.format || "").toLowerCase();
+  return id.startsWith("report_") || format === "html" || format === "pdf";
+}
+
+function renderArtifactChoices() {
+  $("artifactTabs").innerHTML = "";
+  $("artifactOptions").innerHTML = "";
+  const groups = [
+    { label: "分析报告", items: state.artifacts.filter(isReportArtifact) },
+    { label: "评论与文件", items: state.artifacts.filter((item) => !isReportArtifact(item)) },
+  ];
+  groups.forEach((group) => {
+    if (!group.items.length) return;
+    const wrap = el("div", "artifact-group");
+    wrap.appendChild(el("p", "artifact-group-label", group.label));
+    group.items.forEach((artifact) => {
+      const tab = el("button", "artifact-tab", artifact.label || artifact.id);
+      tab.type = "button";
+      tab.dataset.artifactId = artifact.id;
+      tab.dataset.format = String(artifact.format || "").toUpperCase();
+      tab.setAttribute("role", "tab");
+      tab.addEventListener("click", () => previewArtifact(artifact.id));
+      wrap.appendChild(tab);
+      const label = el("label", "artifact-option");
+      const check = el("input");
+      check.type = "checkbox";
+      check.value = artifact.id;
+      check.checked = false;
+      check.setAttribute("aria-label", "导出 " + (artifact.label || artifact.id));
+      check.addEventListener("change", () => {
+        if (check.checked) state.selectedArtifacts.add(artifact.id);
+        else state.selectedArtifacts.delete(artifact.id);
+        updateArtifactSelection();
+      });
+      label.appendChild(check);
+      label.appendChild(el("span", null, artifact.label || artifact.id));
+      $("artifactOptions").appendChild(label);
+    });
+    $("artifactTabs").appendChild(wrap);
+  });
+  updateArtifactSelection();
+  if (window.WorkspaceShell) window.WorkspaceShell.artifactsChanged({ artifacts: state.artifacts, productId: state.artifactProductId });
+}
+
+function previewArtifact(id) {
+  const artifact = state.artifacts.find((item) => item.id === id);
+  if (!artifact || !artifact.preview_url) return;
+  try {
+    const url = localArtifactUrl(artifact.preview_url);
+    state.artifactId = artifact.id;
+    $("artifactError").textContent = "";
+    $("artifactPreviewLabel").textContent = artifact.label || artifact.id;
+    $("artifactPreviewNote").textContent = "仅预览，尚未导出 · " + String(artifact.format || "").toUpperCase();
+    const frame = $("artifactFrame");
+    if (String(artifact.format).toLowerCase() === "pdf") frame.removeAttribute("sandbox");
+    else frame.setAttribute("sandbox", "allow-scripts allow-downloads");
+    frame.title = (artifact.label || "产物") + "预览";
+    frame.src = url;
+    $("artifactWorkspace").classList.remove("hidden");
+    $("artifactWorkspace").removeAttribute("aria-hidden");
+    Array.from(document.querySelectorAll("#artifactTabs .artifact-tab")).forEach((tab) => {
+      const selected = tab.dataset.artifactId === id;
+      tab.classList.toggle("active", selected);
+      tab.setAttribute("aria-selected", String(selected));
+    });
+    if (window.WorkspaceShell) window.WorkspaceShell.artifactChanged(artifact);
+  } catch (error) { $("artifactError").textContent = error.message; }
+}
+
+async function loadArtifactWorkspace(productId, options) {
+  options = options || {};
+  if (!productId) return false;
+  const request = ++state.artifactRequest;
+  try {
+    const response = await fetch("/api/analysis/product/" + encodeURIComponent(productId) + "/artifacts", { cache: "no-store" });
+    const data = await response.json();
+    if (request !== state.artifactRequest || state.productId && String(state.productId) !== String(productId)) return false;
+    if (!response.ok) throw new Error(data.error || "报告产物暂未准备好");
+    const artifacts = (data.artifacts || []).filter((item) => item && item.id && item.preview_url);
+    if (!artifacts.length) throw new Error("尚无可预览产物，请完成分析后重试。");
+    const ids = artifacts.map((item) => item.id);
+    if (new Set(ids).size !== ids.length) throw new Error("产物清单存在重复标识，请重新生成。");
+    artifacts.forEach((item) => { localArtifactUrl(item.preview_url); if (item.download_url) localArtifactUrl(item.download_url); });
+    state.artifacts = artifacts;
+    state.artifactProductId = String(productId);
+    state.selectedArtifacts = new Set();
+    $("artifactProductTitle").textContent = (data.product_title || "商品 " + productId) + " · 本次预览工作区";
+    $("artifactWorkspace").classList.remove("hidden");
+    renderArtifactChoices();
+    const report = artifacts.find((item) => data.report_url && localArtifactUrl(item.preview_url) === localArtifactUrl(data.report_url)) ||
+      artifacts.find((item) => String(item.format).toLowerCase() === "html") || artifacts[0];
+    previewArtifact(report.id);
+    if (options.focus !== false) setReportFocus(true);
+    return true;
+  } catch (error) {
+    if (request !== state.artifactRequest) return false;
+    $("analysisError").textContent = "分析已完成；预览暂不可用：" + error.message;
+    return false;
+  }
+}
+
+function downloadFromUrl(url, filename) {
+  const link = el("a");
+  link.href = url;
+  link.setAttribute("download", filename || "");
+  link.style.display = "none";
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+}
+
+function exportCurrentArtifact() {
+  const artifact = state.artifacts.find((item) => item.id === state.artifactId);
+  if (!artifact || !artifact.download_url) return;
+  try {
+    downloadFromUrl(localArtifactUrl(artifact.download_url), artifact.filename || "");
+    $("artifactPreviewNote").textContent = "已发起导出，请在保存窗口中选择位置。";
+  } catch (error) { $("artifactError").textContent = error.message; }
+}
+
+async function exportSelectedArtifacts() {
+  const ids = state.artifacts.filter((item) => state.selectedArtifacts.has(item.id)).map((item) => item.id);
+  if (!ids.length || !state.artifactProductId) return;
+  if (ids.length === 1) {
+    const artifact = state.artifacts.find((item) => item.id === ids[0]);
+    try { downloadFromUrl(localArtifactUrl(artifact.download_url), artifact.filename || ""); }
+    catch (error) { $("artifactError").textContent = error.message; }
+    return;
+  }
+  const button = $("artifactExportSelectedBtn");
+  button.disabled = true;
+  button.textContent = "准备导出…";
+  try {
+    const response = await fetch("/api/analysis/product/" + encodeURIComponent(state.artifactProductId) + "/export", {
+      method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ artifact_ids: ids })
+    });
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.error || "导出失败");
+    }
+    const blob = await response.blob();
+    const url = URL.createObjectURL(blob);
+    downloadFromUrl(url, "商品分析_" + state.artifactProductId + ".zip");
+    setTimeout(() => URL.revokeObjectURL(url), 1500);
+    $("artifactPreviewNote").textContent = "已准备 " + ids.length + " 项导出，请选择保存位置。";
+  } catch (error) { $("artifactError").textContent = error.message; }
+  finally { button.textContent = "导出选中文件"; updateArtifactSelection(); }
+}
+
+async function clearSessionData() {
+  if (state.busy || $("analyzeBtn").disabled) {
+    $("clearSessionError").textContent = "当前有任务正在进行，请完成或取消后再清理。";
+    return;
+  }
+  $("clearSessionConfirmBtn").disabled = true;
+  $("clearSessionError").textContent = "";
+  try {
+    const response = await fetch("/api/session/clear", { method: "POST", headers: { "Content-Type": "application/json" }, body: "{}" });
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error || "清理失败");
+    clearTimeout(state.timer);
+    resetAnalysis();
+    resetIntervention();
+    state.jobId = null;
+    state.productId = null;
+    if (window.WorkspaceShell) window.WorkspaceShell.resetCollection();
+    $("resultCard").classList.add("hidden");
+    $("progressCard").classList.add("hidden");
+    $("errorCard").classList.add("hidden");
+    $("clearSessionConfirm").classList.add("hidden");
+    const url = new URL(window.location.href);
+    url.searchParams.delete("job");
+    window.history.replaceState(null, "", url);
+    await refreshHistoryJobs();
+    settingsMessage("本次工作区已清理；历史记录和 API 配置仍然可用。", false);
+  } catch (error) { $("clearSessionError").textContent = error.message; }
+  finally { $("clearSessionConfirmBtn").disabled = false; }
+}
+
+$("submit").addEventListener("click", submit);
+$("analyzeBtn").addEventListener("click", startAnalysis);
+$("openBrowserBtn").addEventListener("click", openCollectionBrowser);
+$("resumeBtn").addEventListener("click", resumeJob);
+$("recheckBtn").addEventListener("click", recheckJob);
+$("cancelBtn").addEventListener("click", cancelJob);
+$("importBtn").addEventListener("click", importJson);
+$("historyOpenBtn").addEventListener("click", () => loadHistoryJob($("historySelect").value));
+$("historyRefreshBtn").addEventListener("click", refreshHistoryJobs);
+$("recollectBtn").addEventListener("click", () => {
+  if (window.WorkspaceShell) window.WorkspaceShell.navigate("collect");
+  submit({ forceRefresh: true });
+});
+$("unit").addEventListener("change", updateTimeMax);
+$("url").addEventListener("keydown", (e) => { if (e.key === "Enter") submit(); });
+$("settingsOpenBtn").addEventListener("click", () => { $("apiSettings").open = true; $("apiSettings").scrollIntoView({ behavior: "smooth", block: "start" }); });
+$("apiSaveBtn").addEventListener("click", () => saveApiSettings(false));
+$("apiTestBtn").addEventListener("click", testApiSettings);
+$("apiClearKeyBtn").addEventListener("click", () => saveApiSettings(true));
+$("apiKeyRevealBtn").addEventListener("click", () => {
+  const field = $("apiKey"), showing = field.type === "password";
+  field.type = showing ? "text" : "password";
+  $("apiKeyRevealBtn").textContent = showing ? "隐藏" : "显示";
+  $("apiKeyRevealBtn").setAttribute("aria-label", showing ? "隐藏 API Key" : "显示 API Key");
+});
+$("artifactExportCurrentBtn").addEventListener("click", exportCurrentArtifact);
+$("artifactExportSelectedBtn").addEventListener("click", exportSelectedArtifacts);
+$("artifactChooseBtn").addEventListener("click", () => { $("artifactSelection").open = true; $("artifactSelection").scrollIntoView({ behavior: "smooth", block: "nearest" }); });
+let lastReportHeight = 0;
+if (typeof window.addEventListener === "function") window.addEventListener("message", (event) => {
+  const frame = $("artifactFrame");
+  if (!frame || event.source !== frame.contentWindow) return;
+  const data = event.data || {};
+  if (data.type !== "report-height") return;
+  const height = Math.round(Number(data.height));
+  if (!Number.isFinite(height) || height < 200) return;
+  lastReportHeight = Math.min(height, 30000);
+  if (document.body.classList.contains("report-focus")) return;
+  frame.style.height = Math.max(580, lastReportHeight) + "px";
+});
+
+function setReportFocus(focused) {
+  document.body.classList.toggle("report-focus", focused);
+  const frame = $("artifactFrame");
+  if (frame) {
+    if (focused) frame.style.height = "";
+    else if (lastReportHeight) frame.style.height = Math.max(580, lastReportHeight) + "px";
+  }
+  $("artifactFocusBtn").textContent = focused ? "返回任务" : "专注预览";
+  $("artifactFocusBtn").setAttribute("aria-pressed", String(focused));
+  if (window.WorkspaceShell) window.WorkspaceShell.focusChanged(focused);
+}
+$("artifactFocusBtn").addEventListener("click", () => setReportFocus(!document.body.classList.contains("report-focus")));
+$("clearSessionBtn").addEventListener("click", () => { if (window.WorkspaceShell) window.WorkspaceShell.navigate("collect"); $("clearSessionConfirm").classList.remove("hidden"); $("clearSessionError").textContent = ""; });
+$("clearSessionCancelBtn").addEventListener("click", () => $("clearSessionConfirm").classList.add("hidden"));
+$("clearSessionConfirmBtn").addEventListener("click", clearSessionData);
+
+$("manualClaimsAdd").addEventListener("click", async () => {
+  const input = $("manualClaimsInput");
+  const hint = $("manualClaimsHint");
+  const lines = input.value.split(/\n+/).map((s) => s.trim()).filter(Boolean);
+  if (!state.productId) { hint.textContent = "还没有采集到商品，请先完成采集。"; return; }
+  if (!lines.length) { hint.textContent = "请先粘贴至少一条宣传文案。"; return; }
+  $("manualClaimsAdd").disabled = true;
+  try {
+    const res = await fetch(`/api/product/${state.productId}/claims/manual`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ lines }),
+    });
+    const out = await res.json();
+    if (!res.ok || !out.ok) { hint.textContent = out.error || "添加失败"; return; }
+    hint.textContent = `已补充 ${out.added} 条（${out.export}）。重新分析后生效。`;
+    input.value = "";
+    const claims = $("claims");
+    lines.forEach((t) => {
+      const span = document.createElement("span");
+      span.className = "claim";
+      span.textContent = t;
+      span.title = "manual";
+      claims.appendChild(span);
+    });
+    const count = $("pClaims");
+    count.textContent = (parseInt(count.textContent, 10) || 0) + out.added;
+  } catch (err) {
+    hint.textContent = "网络错误：" + err;
+  } finally {
+    $("manualClaimsAdd").disabled = false;
+  }
+});
+
+applyMode("count");
+checkHealth();
+setInterval(checkHealth, 10000);
+restoreRecentJob();
+</script>
+<script src="/static/workspace-shell.js" defer></script>
+</body>
+</html>

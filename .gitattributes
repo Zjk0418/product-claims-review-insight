@@ -1,0 +1,14 @@
+* text=auto
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.py text eol=lf
+*.md text eol=lf
+*.js text eol=lf
+*.mjs text eol=lf
+*.css text eol=lf
+*.html text eol=lf
+*.json text eol=lf
+*.onnx -text
+*.png -text
+*.jpg -text
+*.ico -text

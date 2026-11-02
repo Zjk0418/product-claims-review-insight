@@ -70,6 +70,21 @@ def compact_json(obj: dict[str, Any]) -> str:
     return json.dumps(obj, ensure_ascii=False, separators=(",", ":"))
 
 
+# 评价正文可能带平台的隐藏控制字符（如实测 0x01），openpyxl 会拒绝写入 Excel。
+# 仅在写 Excel 时清洗；JSONL 保留接口原始内容，避免丢失证据。
+ILLEGAL_EXCEL_CHARS = re.compile(r"[\x00-\x08\x0b\x0c\x0e-\x1f]")
+
+
+def excel_safe_rows(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    return [
+        {
+            key: ILLEGAL_EXCEL_CHARS.sub("", value) if isinstance(value, str) else value
+            for key, value in row.items()
+        }
+        for row in rows
+    ]
+
+
 def calc_sign(token: str, t: str, app_key: str, data: str) -> str:
     return hashlib.md5(f"{token}&{t}&{app_key}&{data}".encode("utf-8")).hexdigest()
 
@@ -498,7 +513,7 @@ async def crawl_from_url(
     def save_partial() -> None:
         if not rows:
             return
-        pd.DataFrame(rows).to_excel(partial_excel_file, index=False)
+        pd.DataFrame(excel_safe_rows(rows)).to_excel(partial_excel_file, index=False)
         with partial_jsonl_file.open("w", encoding="utf-8") as f:
             for rate in raw_rates:
                 f.write(json.dumps(rate, ensure_ascii=False) + "\n")
@@ -592,7 +607,7 @@ async def crawl_from_url(
     excel_file = out_path / f"tmall_reviews_{item_id}_{len(rows)}条_{stamp}.xlsx"
     jsonl_file = out_path / f"tmall_reviews_{item_id}_{len(rows)}条_{stamp}.jsonl"
 
-    pd.DataFrame(rows).to_excel(excel_file, index=False)
+    pd.DataFrame(excel_safe_rows(rows)).to_excel(excel_file, index=False)
     with jsonl_file.open("w", encoding="utf-8") as f:
         for rate in raw_rates:
             f.write(json.dumps(rate, ensure_ascii=False) + "\n")

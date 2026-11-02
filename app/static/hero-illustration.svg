@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="520" height="420" viewBox="0 0 520 420" fill="none" role="img" aria-labelledby="title description">
+  <title id="title">商品评价分析</title>
+  <desc id="description">蓝色购物袋与服饰，搭配评价卡片、柱状图和数据圆环的简洁插画。</desc>
+  <defs>
+    <linearGradient id="backdrop" x1="123" y1="70" x2="430" y2="347" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#CCE2FF"/>
+      <stop offset="1" stop-color="#F2F7FF"/>
+    </linearGradient>
+    <linearGradient id="bag" x1="182" y1="186" x2="323" y2="365" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2C99FF"/>
+      <stop offset="1" stop-color="#066BFF"/>
+    </linearGradient>
+    <linearGradient id="shirt" x1="267" y1="96" x2="384" y2="235" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#D9E5F5"/>
+    </linearGradient>
+    <linearGradient id="card" x1="72" y1="194" x2="222" y2="286" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#F7FBFF"/>
+    </linearGradient>
+    <filter id="shadow" x="-35%" y="-35%" width="180%" height="190%" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#204B89" flood-opacity=".18"/>
+    </filter>
+  </defs>
+
+  <path d="M92 205C82 133 139 78 199 72C254 67 269 90 318 79C377 65 432 103 442 161C455 234 423 285 371 318C328 346 279 335 234 346C168 362 101 326 93 270C89 245 96 232 92 205Z" fill="url(#backdrop)"/>
+  <ellipse cx="270" cy="365" rx="170" ry="14" fill="#DCEAFF" opacity=".65"/>
+  <circle cx="106" cy="118" r="9" fill="#D1E4FF"/>
+  <circle cx="420" cy="283" r="8" fill="#C9DEFF"/>
+  <circle cx="402" cy="80" r="4" fill="#A9CCFF"/>
+  <circle cx="128" cy="334" r="4" fill="#B9D5FF"/>
+  <path d="M78 164H90M84 158V170M437 224H449M443 218V230" stroke="#B8D5FF" stroke-width="3" stroke-linecap="round"/>
+  <path d="M172 89L176 84L180 89L176 94L172 89Z" fill="#B1CFFF"/>
+  <path d="M380 327L385 320L390 327L385 334L380 327Z" fill="#B1CFFF"/>
+
+  <!-- A small product detail card sits behind the shopping bag. -->
+  <g transform="rotate(10 335 176)" filter="url(#shadow)">
+    <rect x="253" y="92" width="161" height="189" rx="18" fill="#FFF"/>
+    <rect x="266" y="105" width="135" height="128" rx="11" fill="#EFF5FF"/>
+    <path d="M305 125L318 117C327 126 339 126 348 117L361 125L382 145L366 163L356 154V211H310V154L300 163L284 145L305 125Z" fill="url(#shirt)"/>
+    <path d="M318 118C318 130 347 130 348 118" stroke="#A7BDDC" stroke-width="3" stroke-linecap="round"/>
+    <path d="M311 190H355" stroke="#A7BDDC" stroke-width="2" opacity=".4"/>
+    <rect x="269" y="246" width="75" height="6" rx="3" fill="#D3E3FA"/>
+    <rect x="269" y="259" width="47" height="5" rx="2.5" fill="#E4EDFA"/>
+    <rect x="362" y="245" width="33" height="14" rx="7" fill="#E6F0FF"/>
+  </g>
+
+  <g filter="url(#shadow)">
+    <path d="M172 195C172 189 177 184 183 184H295C301 184 306 189 307 195L324 342C325 350 319 356 311 356H168C160 356 154 350 155 342L172 195Z" fill="url(#bag)"/>
+    <path d="M295 184L307 195L324 342C325 350 319 356 311 356H296L289 184H295Z" fill="#0054CF" opacity=".34"/>
+    <path d="M202 196V172C202 150 217 138 239 138C260 138 276 150 276 172V196" stroke="#0874E9" stroke-width="10" stroke-linecap="round"/>
+    <path d="M202 192V172C202 151 218 138 239 138C260 138 276 150 276 172V192" stroke="#E9F2FF" stroke-width="6" stroke-linecap="round"/>
+    <circle cx="202" cy="196" r="5" fill="#D3E6FF"/>
+    <circle cx="276" cy="196" r="5" fill="#D3E6FF"/>
+    <path d="M213 288L228 303L258 272" stroke="#FFF" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" opacity=".92"/>
+    <path d="M171 333H294" stroke="#B2D2FF" stroke-width="2" stroke-linecap="round" opacity=".5"/>
+  </g>
+
+  <!-- Review card: a neutral star sample and text lines. -->
+  <g transform="rotate(-8 137 227)" filter="url(#shadow)">
+    <rect x="57" y="180" width="166" height="105" rx="14" fill="url(#card)"/>
+    <rect x="72" y="195" width="28" height="28" rx="9" fill="#E9F2FF"/>
+    <circle cx="86" cy="204" r="4" fill="#9BBFF3"/>
+    <path d="M79 217C79 211 93 211 93 217" fill="#9BBFF3"/>
+    <rect x="109" y="199" width="56" height="5" rx="2.5" fill="#C6DBF8"/>
+    <rect x="109" y="211" width="36" height="4" rx="2" fill="#E2ECFA"/>
+    <g fill="#7FADEF">
+      <path d="M78 237L80 241L84 242L81 245L82 249L78 247L74 249L75 245L72 242L76 241L78 237Z"/>
+      <path d="M94 237L96 241L100 242L97 245L98 249L94 247L90 249L91 245L88 242L92 241L94 237Z"/>
+      <path d="M110 237L112 241L116 242L113 245L114 249L110 247L106 249L107 245L104 242L108 241L110 237Z"/>
+    </g>
+    <g fill="#E2ECFA">
+      <path d="M126 237L128 241L132 242L129 245L130 249L126 247L122 249L123 245L120 242L124 241L126 237Z"/>
+      <path d="M142 237L144 241L148 242L145 245L146 249L142 247L138 249L139 245L136 242L140 241L142 237Z"/>
+    </g>
+    <rect x="73" y="259" width="125" height="5" rx="2.5" fill="#E3ECF8"/>
+    <rect x="73" y="269" width="83" height="4" rx="2" fill="#ECF2FB"/>
+  </g>
+
+  <!-- An analysis panel: a proportion ring and compact bar chart. -->
+  <g transform="rotate(4 355 306)" filter="url(#shadow)">
+    <rect x="294" y="260" width="145" height="92" rx="14" fill="#FFF"/>
+    <rect x="307" y="274" width="59" height="5" rx="2.5" fill="#CADDF8"/>
+    <circle cx="322" cy="312" r="18" stroke="#EAF1FC" stroke-width="7"/>
+    <path d="M322 294A18 18 0 0 1 337.6 321" stroke="#087AFF" stroke-width="7" stroke-linecap="round"/>
+    <circle cx="322" cy="312" r="3" fill="#B3CEF6"/>
+    <rect x="358" y="310" width="12" height="22" rx="3" fill="#CFDFFA"/>
+    <rect x="378" y="299" width="12" height="33" rx="3" fill="#9FBFF1"/>
+    <rect x="398" y="288" width="12" height="44" rx="3" fill="#087AFF"/>
+    <path d="M353 337H418" stroke="#EBF1FA" stroke-width="2" stroke-linecap="round"/>
+  </g>
+
+  <g transform="rotate(-7 151 134)" filter="url(#shadow)">
+    <rect x="119" y="111" width="64" height="45" rx="12" fill="#FFF"/>
+    <path d="M135 140L145 130L152 135L166 121" stroke="#8BB3EF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M158 121H166V129" stroke="#8BB3EF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>

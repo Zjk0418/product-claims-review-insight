@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>简要 PDF 分析报告预览</title>
+<style>__PREVIEW_STYLES__</style>
+</head>
+<body class="pdf-preview">
+<header class="toolbar">
+  <button id="previous" type="button" disabled aria-label="PDF 上一页">上一页</button>
+  <span id="pageLabel" role="status">正在加载 PDF…</span>
+  <button id="next" type="button" disabled aria-label="PDF 下一页">下一页</button>
+  <label>缩放 <select id="zoom" aria-label="PDF 缩放"><option value="fit">适合宽度</option><option value="1">100%</option><option value="1.25">125%</option><option value="1.5">150%</option></select></label>
+  <span class="note">仅预览 · 导出后才保留文件</span>
+</header>
+<main>
+  <p id="status" role="status">正在渲染报告页面…</p>
+  <div id="error" role="alert" hidden>PDF 预览暂不可用，请切换回可视化报告，或点击上方“导出当前文件”查看 PDF。</div>
+  <div id="pages" aria-label="PDF 页面"></div>
+  <details><summary>查看本页文字</summary><div id="pageText"></div></details>
+</main>
+<script type="module" src="/static/pdf-preview.mjs" data-pdf-url="__PDF_URL__"></script>
+</body>
+</html>

@@ -1,21 +1,35 @@
-# Python caches
+# Private credentials and local settings
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+api-settings.json
+
+# Browser state, task data and locally generated results
+**/runtime/
+runtime/
+.cdp-edge-profile/
+cdp-profile/
+**/collection-profile/
+**/annotations/
+*.jsonl
+*.xlsx
+*.csv
+
+# Python, builds, temporary files and editor state
 __pycache__/
 *.py[cod]
-.pytest_cache/
-
-# Local environments
 .venv/
 venv/
-
-# Local secrets
-**/.env
-**/.env.*
-!**/.env.example
-
-# Runtime data and browser profiles
-runtime/
-
-# Editor and OS files
+build/
+dist/
+*.exe
+*.msi
+*.log
+*.tmp
+*.bak
+.pytest_cache/
 .vscode/
 .idea/
 .DS_Store

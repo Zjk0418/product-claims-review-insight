@@ -1,0 +1,29 @@
+# 商品宣传与体验落差分析 — 依赖清单
+# 适用：Python 3.10（开发与验收环境为 3.10.x / Windows 10 22H2）
+# 安装：pip install -r requirements.txt
+#
+# 说明：全部依赖均可 CPU 运行，不需要 GPU、不需要 PyTorch。
+#      BGE 向量模型以 ONNX 形式本地推理，OCR 同样走 onnxruntime。
+
+# ---------- 核心运行 ----------
+requests>=2.31,<3
+websockets>=13,<17
+numpy>=1.26,<3
+scipy>=1.11,<2
+scikit-learn>=1.5,<2
+pandas>=2.0,<3
+pypdf>=4,<7
+
+# ---------- 本地推理：向量编码与 OCR ----------
+onnxruntime>=1.16,<2
+tokenizers>=0.20,<1
+rapidocr-onnxruntime>=1.4.4,<2
+psutil>=5.9,<8
+
+# ---------- 报告导出（HTML / PDF / XLSX） ----------
+reportlab>=4.2,<5
+openpyxl>=3.1,<4
+
+# ---------- 桌面壳与打包（仅打包 exe 时需要，源码运行可不装） ----------
+pywebview>=6.2,<7
+pyinstaller>=6.22,<7

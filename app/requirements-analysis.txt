@@ -1,0 +1,7 @@
+# 分析层新增依赖（采集层依赖见 app/requirements.txt 与原仓库 requirements.txt）
+# 已安装版本：scikit-learn 1.7.2 / tokenizers 0.23.3 / scipy 1.15.3
+scikit-learn>=1.5
+tokenizers>=0.20
+
+# BGE 向量由 onnxruntime 运行；onnxruntime 已由 app/requirements.txt 安装
+# 模型文件位于 models/bge-small-zh-v1.5/，无需 PyTorch
